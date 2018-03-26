@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/bootstrap-4/js/bootstrap.min.js"></script>
+    <link rel='stylesheet' href='/bootstrap-4/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='/stylesheets/homepage.css'/>
+    <link rel='stylesheet' href='/stylesheets/style.css'>
+    <!--<link rel="shortcut icon" href="/images/favicon.ico">-->
+    <!--<link rel="bookmark" href="/images/favicon.ico">-->
+</head>
+<body>
+<% include header.ejs %>
+<main role="main">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading" style="margin: 3rem;">My info</h1>
+            <p class="lead text-muted" style="margin: 2rem">Choose tabs.</p>
+            <p id="btn-chooseTab">
+                <a href="#" class="btn btn-secondary" id="btn-mp">Modify password.</a>&nbsp;&nbsp;&nbsp;
+                <a href="#" class="btn btn-secondary" id="btn-fans">My fans.</a>&nbsp;&nbsp;&nbsp;
+                <a href="#" class="btn btn-secondary" id="btn-follows">My follows.</a>
+            </p>
+        </div>
+    </section>
+    <div id="div-all">
+        <form class="form-signIn" id="fm-mp" method="post">
+            <h2 class="form-signIn-heading">Modify password</h2>
+            <label for="inputPassword" class="sr-only">Pre password</label>
+            <input type="password" id="prePassword" class="form-control" placeholder="PrePassword" required autofocus>
+            <label for="inputPassword" class="sr-only">New password</label>
+            <input type="password" id="password" class="form-control" placeholder="NewPassword" required>
+            <label for="inputPassword" class="sr-only">New password again</label>
+            <input type="password" id="passwordAgain" class="form-control" placeholder="NewPasswordAgain" required>
+            <input class="btn btn-lg btn-primary btn-block" id="btn-mp" type="submit" value="OK"></input>
+        </form>
+
+        <div id="div-myFans" style="margin-top: 5rem;text-align: center">
+            <h3>My fans list</h3>
+            <% fanList.forEach(function(fan){ %>
+            <p>Username: <a href="/j<%=fan.username%>/myGraphs#"><%=fan.username%></a></p>
+            <% }) %>
+            <!--<p>none.</p>-->
+
+        </div>
+        <div id="div-myFollows" style="margin-top: 5rem;text-align: center">
+            <h3>My follows list</h3>
+            <% followList.forEach(function(follow){ %>
+            <p>Username: <a href="/j<%=follow.username%>/myGraphs#"><%=follow.username%></a></p>
+            <% }) %>
+            <!--<p>Username: <a href="/juser2/myGraphs#">user2</a></p>-->
+            <!--<p>Username: <a href="/juser3/myGraphs#">user3</a></p>-->
+            <!--<p>Username: <a href="/juser4/myGraphs#">user4</a></p>-->
+        </div>
+    </div>
+</main>
+
+<footer class="text-muted">
+    <!--<div class="container">-->
+    <!--<p class="float-right">-->
+    <!--<a href="#">Back to top<img src="/images/go_up.png" width="30px"></a>-->
+    <!--</p>-->
+    <!--</div>-->
+</footer>
+
+<script type="text/javascript">
+    $("#div-all").hide();
+    $(function () {
+        $("#btn-mp").click(function () {
+            $("#btn-mp").attr("class", "btn btn-primary");
+            $("#btn-fans").attr("class", "btn btn-secondary");
+            $("#btn-follows").attr("class", "btn btn-secondary");
+            $("#div-all").show();
+            $("#fm-mp").show();
+            $("#div-myFans").hide();
+            $("#div-myFollows").hide();
+        });
+        $("#btn-fans").click(function () {
+            $("#btn-mp").attr("class", "btn btn-secondary");
+            $("#btn-fans").attr("class", "btn btn-primary");
+            $("#btn-follows").attr("class", "btn btn-secondary");
+            $("#div-all").show();
+            $("#fm-mp").hide();
+            $("#div-myFans").show();
+            $("#div-myFollows").hide();
+        });
+        $("#btn-follows").click(function () {
+            $("#btn-mp").attr("class", "btn btn-secondary");
+            $("#btn-fans").attr("class", "btn btn-secondary");
+            $("#btn-follows").attr("class", "btn btn-primary");
+            $("#div-all").show();
+            $("#fm-mp").hide();
+            $("#div-myFans").hide();
+            $("#div-myFollows").show();
+        });
+    });
+</script>
+
+<script>
+    $('#fm-mp').on('submit', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "post",
+            url: "/j:username/myInfo/mp",
+            data: {
+                username: $("#a-ownUsername").val(),
+                prePassword: $("#prePassword").val(),
+                password: $("#password").val(),
+                passwordAgain: $("#passwordAgain").val()
+            },
+            success: function (data) {
+                if (data.success) {
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+</html>

@@ -1,0 +1,53 @@
+.container {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.div-showDetail {
+    min-height: 48rem;
+    padding-top: 5rem;
+    padding-bottom: 1rem;
+}
+
+.div-img {
+    max-width: 320px;
+    position: absolute;
+    /*float: left;*/
+}
+
+.div-table {
+    max-width: 500px;
+    position: absolute;
+    /*float: right;*/
+    /*top:20px;*/
+    left: 350px;
+}
+
+/****************table**********************/
+table {
+    background: transparent;
+    border-width: 0;
+    width: 500px;
+    /*padding-left: 10px;*/
+}
+table {
+    margin-left: 40px;
+}
+
+/*#table-memberInfo tr {*/
+/*display: block;*/
+/*padding: 4px;*/
+/*}*/
+
+table td {
+    min-width: 300px;
+    /*max-width: 300px;*/
+    font-size: 20px;
+    /*margin: 5px;*/
+    color: black;
+}
+
+table tr td:nth-child(1) {
+    text-align: right;
+}
+

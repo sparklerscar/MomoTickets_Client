@@ -1,0 +1,110 @@
+body {
+    background-color: #ffffff;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.jumbotron {
+    /*padding-top: 6rem;*/
+    /*padding-bottom: 6rem;*/
+    padding: 0;
+    margin-top: 1rem;
+    margin-bottom: 0;
+    background-color: #ffffff;
+}
+
+.jumbotron p:last-child {
+    margin-bottom: 0;
+}
+
+.jumbotron-heading {
+    font-weight: 300;
+}
+
+.jumbotron .container {
+    max-width: 40rem;
+}
+
+.row {
+    margin-left: -50px;
+    margin-right: -50px;
+}
+
+.album {
+    min-height: 50rem; /* Can be removed; just added for demo purposes */
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-top: 3rem;
+}
+
+
+.container {
+    /*margin-top:5rem;*/
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#btn-chooseTab a {
+    min-width: 200px;
+    border-radius: 10px;
+}
+
+#btn-MAD {
+    padding-top: 2rem;
+    padding-right: 10rem;
+}
+
+#btn-MAD a {
+    min-width: 100px;
+    border-radius: 10px;
+    float:right;
+    margin-right:0.5rem;
+}
+.card {
+    float: left;
+    max-width: 400px;
+    /*max-height: 350px;*/
+    padding: 0.75rem;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    border: 0px;
+    border-radius:10px;
+    box-shadow: 3px 3px 5px #888888;
+    background-color: #ffffff;
+}
+.card a {
+    max-height: 35px;
+    max-width: 70px;
+    border-radius: 10px;
+    font-size: 75%;
+}
+.card > img {
+    margin-bottom: 0.75rem;
+}
+
+.card-text {
+    font-size: 75%;
+    margin: 2px;
+}
+
+
+footer {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+footer p {
+    margin-bottom: 0.25rem;
+}
+
+/***************************************/
+/******addNewAlbum**********************/
+/***************************************/
+
+#form-addNewAlbum, #form-addNewGraph {
+    max-width: 500px;
+    padding: 15px;
+    margin: 100px auto;
+}
