@@ -6,3 +6,5 @@ MomoTickets_Client.iml
 out/*
 *.properties
 *.MF
+.idea/workspace.xml
+MomoTickets_Client.iml
