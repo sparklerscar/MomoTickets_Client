@@ -1,10 +1,11 @@
 package momotickets.controller;
 
 
-import momotickets.enumtype.StrEnumChange;
-import momotickets.enumtype.TimeType;
-import momotickets.enumtype.UserType;
+import momotickets.enumtype.*;
 import momotickets.factory.EJBFactory;
+import momotickets.model.Account;
+import momotickets.model.Member;
+import momotickets.service.OrderManageService;
 import momotickets.service.PayManageService;
 import momotickets.service.TherterManageService;
 import momotickets.service.UserManageService;
@@ -45,5 +46,85 @@ public class UserController {
         modelAndView.addObject("showList", therterManageService.getShow(TimeType.NOW));
         return modelAndView;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/modifyInfo", method=RequestMethod.POST)
+    public String modifyInfo(HttpServletRequest request) {
+        UserManageService userManageService = (UserManageService) EJBFactory.getEJB("UserManageServiceBean", "momotickets.service.UserManageService");
+
+        String name=request.getParameter("nickname");
+        String memberid = request.getParameter("memberid");
+        Member member = userManageService.getMember(memberid);
+        member.setName(name);
+        String result = "";
+        if(userManageService.modifyMember(member)){
+            result = "Success! Wait confirm.";
+        } else {
+            result = "Fail! Please submit again.";
+        }
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/modifyPwd", method=RequestMethod.POST)
+    public String modifyPwd(HttpServletRequest request) {
+        UserManageService userManageService = (UserManageService) EJBFactory.getEJB("UserManageServiceBean", "momotickets.service.UserManageService");
+        String result = "";
+        String prePwd=request.getParameter("prePwd");
+        String pwd=request.getParameter("pwd");
+        String memberid = request.getParameter("memberid");
+        Member member = userManageService.getMember(memberid);
+        String prePwdTrue = member.getPwd();
+        if(prePwd.equals(prePwdTrue)){
+            member.setPwd(pwd);
+            if(userManageService.modifyMember(member)){
+                result = "Success!";
+            } else {
+                result = "Fail! Please try again.";
+            }
+        }else {
+            result = "Pre password wrong! Please try again.";
+        }
+        System.out.println("result: "+result);
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/modifyApwd", method=RequestMethod.POST)
+    public String modifyApwd(HttpServletRequest request) {
+        PayManageService payManageService = (PayManageService) EJBFactory.getEJB("PayManageServiceImpl", "momotickets.service.PayManageService");
+        String result = "";
+        String preApwd=request.getParameter("preApwd");
+        String apwd=request.getParameter("apwd");
+        String memberid = request.getParameter("memberid");
+        Account account = payManageService.getAccount(memberid,UserType.THERTER);
+        String preApwdTrue = account.getAccountpwd();
+        if(preApwd.equals(preApwdTrue)){
+            account.setAccountpwd(apwd);
+            if(payManageService.modifyAccount(account)){
+                result = "Success!";
+            } else {
+                result = "Fail! Please try again.";
+            }
+        }else {
+            result = "Pre password wrong! Please try again.";
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/{userid}/memberOrder", method = RequestMethod.GET)
+    public ModelAndView getMemberOrder(@PathVariable String userid) {
+        OrderManageService orderManageService = (OrderManageService) EJBFactory.getEJB("OrderManageServiceImpl", "momotickets.service.OrderManageService");
+        ModelAndView modelAndView = new ModelAndView("/member/memberOrder");
+//        ALL, PAYED, WAIT, CANCEL, CLOSED, USED
+        modelAndView.addObject("memberOrderAll", orderManageService.getOrder(userid, UserType.MEMBER, OrderType.ALL));
+        modelAndView.addObject("memberOrderPayed", orderManageService.getOrder(userid, UserType.MEMBER, OrderType.PAYED));
+        modelAndView.addObject("memberOrderWait", orderManageService.getOrder(userid, UserType.MEMBER, OrderType.WAIT));
+        modelAndView.addObject("memberOrderCancel", orderManageService.getOrder(userid, UserType.MEMBER, OrderType.CANCEL));
+        modelAndView.addObject("memberOrderClosed", orderManageService.getOrder(userid, UserType.MEMBER, OrderType.CLOSED));
+        modelAndView.addObject("memberOrderUsed", orderManageService.getOrder(userid, UserType.MEMBER, OrderType.USED));
+        return modelAndView;
+    }
+
 }
 

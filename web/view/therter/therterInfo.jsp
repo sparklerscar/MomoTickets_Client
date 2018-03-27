@@ -20,7 +20,7 @@
     <link rel='stylesheet' href='/css/homepage.css'/>
     <link rel='stylesheet' href='/css/userInfo.css'/>
     <link rel='stylesheet' href='/css/therterInfo.css'/>
-    <link rel="icon" href="/image/favicon.ico" />
+    <link rel="icon" href="/image/favicon.ico"/>
 
 </head>
 <body>
@@ -66,7 +66,7 @@
                                                     </h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form class="form-class" id="form-modifyPwd" method="post">
+                                                    <div class="form-class" id="form-modifyPwd">
                                                         <h2 class="form-class-heading">Modify password</h2>
                                                         <label class="sr-only">Pre password</label>
                                                         <input type="password" id="prePassword" class="form-control"
@@ -79,9 +79,8 @@
                                                         <input type="password" id="passwordAgain" class="form-control"
                                                                placeholder="NewPasswordAgain" required>
                                                         <input class="btn btn-lg btn-primary btn-block"
-                                                               id="btn-modifyPwd"
-                                                               type="submit" value="Modify">
-                                                    </form>
+                                                               id="btn-modifyPwd" value="Modify">
+                                                    </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -146,16 +145,21 @@
                                     </h4>
                                 </div>
                                 <div class="modal-body">
-                                    <form class="form-class" id="form-modifyInfo" method="post">
+                                    <div class="form-class" id="form-modifyInfo">
                                         <h2 class="form-class-heading">Modify basic info</h2>
+                                        <%--设置初始telnum--%>
+                                        <label class="sr-only">New password</label>
+                                        <input type="text" id="name" class="form-control"
+                                               placeholder="name" required
+                                               value="<%=((Therter) request.getAttribute("therter")).getName()%>">
                                         <label class="sr-only">Telnum</label>
-                                        <%--js设置初始telnum--%>
-                                        <input type="telnum" id="telnum" class="form-control"
+                                        <input type="text" id="telnum" class="form-control"
                                                placeholder="telnum" required
-                                               autofocus value="051288881234">
+                                               autofocus
+                                               value="<%=((Therter) request.getAttribute("therter")).getTelnum()%>">
                                         <input class="btn btn-lg btn-primary btn-block" id="btn-modifyInfo"
-                                               type="submit" value="Modify">
-                                    </form>
+                                               value="Modify">
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close
@@ -196,7 +200,7 @@
                                                     </h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form class="form-class" id="form-modifyApwd" method="post">
+                                                    <div class="form-class" id="form-modifyApwd">
                                                         <h2 class="form-class-heading">Modify password</h2>
                                                         <label class="sr-only">Pre password</label>
                                                         <input type="password" id="preApassword" class="form-control"
@@ -209,9 +213,8 @@
                                                         <input type="password" id="apasswordAgain" class="form-control"
                                                                placeholder="NewPasswordAgain" required>
                                                         <input class="btn btn-lg btn-primary btn-block"
-                                                               id="btn-modifyApwd"
-                                                               type="submit" value="Modify">
-                                                    </form>
+                                                               id="btn-modifyApwd" value="Modify">
+                                                    </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -311,6 +314,72 @@
     $("#a-t5").attr("class", "nav-link");
     $("#a-t6").attr("class", "nav-link active");
     $("#a-t7").attr("class", "nav-link");
+
+    var therterid = '<%=((Therter)session.getAttribute("therter")).getTherterid()%>'
+    $(document).ready(function () {
+
+        $("#btn-modifyInfo").click(function () {
+            var name = $("#name").val();
+            var telnum = $("#telnum").val();
+            $.post("/therter/modifyInfo", //利用ajax发起请求，这里写servlet的路径
+                {"therterid": therterid, "name": name, "telnum": telnum},   //传参
+                function (data) {    //请求成功时的回调函数
+                    if (data == "Success! Wait confirm.") {
+                        alert(data);
+                        window.location.href = '/therter/' + therterid + '/therterInfo';
+                    } else {
+                        alert(data);
+                    }
+                });
+        });
+
+        $("#btn-modifyPwd").click(function () {
+            console.log("modify pwd!");
+            var prePwd = $("#prePassword").val();
+            var pwd = $("#password").val();
+            var pwdAgain = $("#passwordAgain").val();
+            if (pwd != pwdAgain) {
+                alert("Two new password mismatch!");
+                return false;
+            } else {
+                $.post("/therter/modifyPwd", //利用ajax发起请求，这里写servlet的路径
+                    {"therterid": therterid, "prePwd": prePwd, "pwd": pwd},   //传参
+                    function (data) {    //请求成功时的回调函数
+                        console.log(data);
+                        if (data == "Success!") {
+                            alert(data);
+                            window.location.href = '/therter/' + therterid + '/therterInfo';
+                        } else {
+                            alert(data);
+                        }
+                    });
+            }
+
+        });
+
+        $("#btn-modifyApwd").click(function () {
+            var preApwd = $("#preApassword").val();
+            var apwd = $("#apassword").val();
+            var apwdAgain = $("#apasswordAgain").val();
+            if (apwd != apwdAgain) {
+                alert("Two new password mismatch!");
+                return false;
+
+            } else {
+                $.post("/therter/modifyApwd", //利用ajax发起请求，这里写servlet的路径
+                    {"therterid": therterid, "preApwd": preApwd, "apwd": apwd},   //传参
+                    function (data) {    //请求成功时的回调函数
+                        if (data == "Success!") {
+                            alert(data);
+                            window.location.href = '/therter/' + therterid + '/therterInfo';
+                        } else {
+                            alert(data);
+                        }
+                    });
+            }
+        });
+
+    });
 
 </script>
 

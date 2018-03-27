@@ -25,8 +25,8 @@
         <form class="form-class" id="form-signInUp" method="post">
             <h2 class="form-class-heading">Please sign up</h2>
             <p id="btn-chooseTab">
-                <a href="register/member" class="btn btn-secondary" id="btn-memberR">Member.</a>&nbsp;&nbsp;&nbsp;
-                <a href="register/therter" class="btn btn-primary" id="btn-therterR">Therter.</a>
+                <a href="/register/member#" class="btn btn-secondary" id="btn-memberR">Member.</a>&nbsp;&nbsp;&nbsp;
+                <a href="/register/therter#" class="btn btn-primary" id="btn-therterR">Therter.</a>
             </p>
             <input type="text" id="input-usertype" name="usertype" value="THERTER">
             <div id="div-signUpTherter">

@@ -25,15 +25,16 @@
         <form class="form-class" id="form-signInUp" method="post">
             <h2 class="form-class-heading">Please sign up</h2>
             <p id="btn-chooseTab">
-                <a href="/register/member" class="btn btn-primary" id="btn-memberR">Member.</a>&nbsp;&nbsp;&nbsp;
-                <a href="/register/therter" class="btn btn-secondary" id="btn-therterR">Therter.</a>
+                <a href="/register/member#" class="btn btn-primary" id="btn-memberR">Member.</a>&nbsp;&nbsp;&nbsp;
+                <a href="/register/therter#" class="btn btn-secondary" id="btn-therterR">Therter.</a>
             </p>
             <input type="text" id="input-usertype" name="usertype" value="MEMBER">
             <div id="div-signUpMember">
                 <label class="sr-only">Email</label>
                 <input type="email" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
+                <p></p>
                 <label class="sr-only">Username</label>
-                <input type="text" id="nickname" name="nickname" class="form-control" placeholder="Nickname" required autofocus>
+                <input type="text" id="nickname" name="nickname" class="form-control" placeholder="Nickname" required>
                 <label  class="sr-only">Password</label>
                 <input type="password" id="password" name="pwd1" class="form-control" placeholder="Password" required>
                 <label  class="sr-only">Password Again</label>

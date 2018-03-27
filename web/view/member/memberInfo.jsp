@@ -19,193 +19,213 @@
     <link rel='stylesheet' href='/css/style.css'/>
     <link rel='stylesheet' href='/css/homepage.css'/>
     <link rel='stylesheet' href='/css/userInfo.css'/>
-    <link rel="icon" href="/image/favicon.ico" />
-
+    <link rel='stylesheet' href='/css/therterInfo.css'/>
+    <link rel="icon" href="/image/favicon.ico"/>
 </head>
 <body>
 <div class="background-content">
     <jsp:include page="/view/header.jsp"></jsp:include>
     <div class="container">
-        <a href="#" class="btn btn-danger" id="btn-deleteAccount">Delete account.</a>
 
-        <h1 class="jumbotron-heading" style="margin: 3rem;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Basic
-            info</h1>
-        <div id="div-memberInfo">
-            <table id="table-memberInfo" cellpadding="15" cellspacing="10" rules="none">
-                <%--<thead>--%>
-                <%--<tr>--%>
-                <%--<th>#</th>--%>
-                <%--<th>Header</th>--%>
-                <%--</tr>--%>
-                <%--</thead>--%>
-                <tbody>
-                <tr>
-                    <td>Email:</td>
-                    <td id="td-email"><%=((Member) request.getAttribute("member")).getMemberid()%>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Password:</td>
-                    <td id="td-pwd">
+        <div class="div-therter">
+            <jsp:include page="/view/member/memberLeft.jsp"></jsp:include>
 
-                        <a id="modal-modifyPwd" href="#modal-container-modifyPwd" role="button" class="btn btn-primary"
-                           data-toggle="modal">Modify password</a>
-                        <div class="modal fade" id="modal-container-modifyPwd" role="dialog"
-                             aria-labelledby="myModalLabel"
-                             aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
-                                        </button>
-                                        <h4 class="modal-title" id="myModalLabel">
-                                        </h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form class="form-class" id="form-modifyPwd" method="post">
-                                            <h2 class="form-class-heading">Modify password</h2>
-                                            <label class="sr-only">Pre password</label>
-                                            <input type="password" id="prePassword" class="form-control"
-                                                   placeholder="PrePassword" required
-                                                   autofocus>
-                                            <label class="sr-only">New password</label>
-                                            <input type="password" id="password" class="form-control"
-                                                   placeholder="NewPassword" required>
-                                            <label class="sr-only">New password again</label>
-                                            <input type="password" id="passwordAgain" class="form-control"
-                                                   placeholder="NewPasswordAgain" required>
-                                            <input class="btn btn-lg btn-primary btn-block" id="btn-modifyPwd"
-                                                   type="submit" value="Modify">
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
-                                        </button>
-                                        <button type="button" class="btn btn-primary">OK</button>
+            <div class="div-contentRight">
+                <hr/>
+                <h3 id="h3-therterTabTitle">Member basic info.</h3>
+                <hr/>
+
+                <a href="#" class="btn btn-danger" id="btn-deleteAccount">Delete account.</a>
+
+                <h1 class="jumbotron-heading" style="margin: 3rem;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Basic
+                    info</h1>
+                <div id="div-memberInfo">
+                    <table id="table-memberInfo" cellpadding="15" cellspacing="10" rules="none">
+                        <%--<thead>--%>
+                        <%--<tr>--%>
+                        <%--<th>#</th>--%>
+                        <%--<th>Header</th>--%>
+                        <%--</tr>--%>
+                        <%--</thead>--%>
+                        <tbody>
+                        <tr>
+                            <td>Email:</td>
+                            <td id="td-email"><%=((Member) request.getAttribute("member")).getMemberid()%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Password:</td>
+                            <td id="td-pwd">
+
+                                <a id="modal-modifyPwd" href="#modal-container-modifyPwd" role="button" class="btn btn-primary"
+                                   data-toggle="modal">Modify password</a>
+                                <div class="modal fade" id="modal-container-modifyPwd" role="dialog"
+                                     aria-labelledby="myModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-class" id="form-modifyPwd">
+                                                    <h2 class="form-class-heading">Modify password</h2>
+                                                    <label class="sr-only">Pre password</label>
+                                                    <input type="password" id="prePassword" class="form-control"
+                                                           placeholder="PrePassword" required
+                                                           autofocus>
+                                                    <label class="sr-only">New password</label>
+                                                    <input type="password" id="password" class="form-control"
+                                                           placeholder="NewPassword" required>
+                                                    <label class="sr-only">New password again</label>
+                                                    <input type="password" id="passwordAgain" class="form-control"
+                                                           placeholder="NewPasswordAgain" required>
+                                                    <input class="btn btn-lg btn-primary btn-block" id="btn-modifyPwd"
+                                                           value="Modify">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                                </button>
+                                                <button type="button" class="btn btn-primary">OK</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nickname:</td>
+                            <td id="td-nickname"><%=((Member) request.getAttribute("member")).getName()%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>isVip:</td>
+                            <td id="td-isVip">
+                                <%if (((Member) request.getAttribute("member")).getIsVip() == 1) {%>true
+                                <%} else {%>false
+                                <%}%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>viplevel:</td>
+                            <td id="td-viplevel"><%=((Member) request.getAttribute("member")).getViplevel()%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Expense:</td>
+                            <td id="td-expense"><%=((Member) request.getAttribute("member")).getExpense()%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Point:</td>
+                            <td id="td-point"><%=((Member) request.getAttribute("member")).getPoint()%>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a id="modal-modifyInfo" href="#modal-container-modifyInfo" role="button" class="btn btn-primary"
+                   data-toggle="modal">Modify info</a>
+                <div class="modal fade" id="modal-container-modifyInfo" role="dialog"
+                     aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel2">
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-class" id="form-modifyInfo">
+                                    <h2 class="form-class-heading">Modify basic info</h2>
+                                    <label class="sr-only">Nickname</label>
+                                    <%--js设置初始nickname--%>
+                                    <input type="nickname" id="nickname" class="form-control"
+                                           placeholder="nickname" required
+                                           autofocus value="<%=((Member)request.getAttribute("member")).getName()%>">
+                                    <input class="btn btn-lg btn-primary btn-block" id="btn-modifyInfo"
+                                           value="Modify">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                </button>
+                                <button type="button" class="btn btn-primary">OK</button>
                             </div>
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Nickname:</td>
-                    <td id="td-nickname"><%=((Member) request.getAttribute("member")).getName()%>
-                    </td>
-                </tr>
-                <tr>
-                    <td>isVip:</td>
-                    <td id="td-isVip">
-                        <%if (((Member) request.getAttribute("member")).getIsVip() == 1) {%>true
-                        <%} else {%>false
-                        <%}%>
-                    </td>
-                </tr>
-                <tr>
-                    <td>viplevel:</td>
-                    <td id="td-viplevel"><%=((Member)request.getAttribute("member")).getViplevel()%></td>
-                </tr>
-                <tr>
-                    <td>Expense:</td>
-                    <td id="td-expense"><%=((Member)request.getAttribute("member")).getExpense()%></td>
-                </tr>
-                <tr>
-                    <td>Point:</td>
-                    <td id="td-point"><%=((Member)request.getAttribute("member")).getPoint()%></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <a id="modal-modifyInfo" href="#modal-container-modifyInfo" role="button" class="btn btn-primary"
-           data-toggle="modal">Modify info</a>
-        <div class="modal fade" id="modal-container-modifyInfo" role="dialog"
-             aria-labelledby="myModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel2">
-                        </h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-class" id="form-modifyInfo" method="post">
-                            <h2 class="form-class-heading">Modify basic info</h2>
-                            <label class="sr-only">Nickname</label>
-                            <%--js设置初始nickname--%>
-                            <input type="nickname" id="nickname" class="form-control"
-                                   placeholder="nickname" required
-                                   autofocus value="<%=((Member)request.getAttribute("member")).getName()%>">
-                            <input class="btn btn-lg btn-primary btn-block" id="btn-modifyInfo"
-                                   type="submit" value="Modify">
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
-                        </button>
-                        <button type="button" class="btn btn-primary">OK</button>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="xline"></div>
-        <%--<hr noshade="noshade">--%>
-        <h1 class="jumbotron-heading" style="margin: 3rem;">Account info</h1>
-        <div id="div-accountInfo">
-            <table id="table-accountInfo" cellpadding="15" cellspacing="10" rules="none">
-                <tbody>
-                <tr>
-                    <td>Balance:</td>
-                    <td id="td-balance"><%=((Account)request.getAttribute("account")).getBalance()%></td>
-                </tr>
-                <tr>
-                    <td>Pay password:</td>
-                    <td id="td-apwd">
-                        <a id="modal-modifyApwd" href="#modal-container-modifyPwd" role="button" class="btn btn-primary"
-                           data-toggle="modal">Modify account password</a>
-                        <div class="modal fade" id="modal-container-modifyApwd" role="dialog"
-                             aria-labelledby="myModalLabel"
-                             aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
-                                        </button>
-                                        <h4 class="modal-title" id="myModalLabelA">
-                                        </h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form class="form-class" id="form-modifyApwd" method="post">
-                                            <h2 class="form-class-heading">Modify password</h2>
-                                            <label class="sr-only">Pre password</label>
-                                            <input type="password" id="preApassword" class="form-control"
-                                                   placeholder="PrePassword" required
-                                                   autofocus>
-                                            <label class="sr-only">New password</label>
-                                            <input type="password" id="apassword" class="form-control"
-                                                   placeholder="NewPassword" required>
-                                            <label class="sr-only">New password again</label>
-                                            <input type="password" id="apasswordAgain" class="form-control"
-                                                   placeholder="NewPasswordAgain" required>
-                                            <input class="btn btn-lg btn-primary btn-block" id="btn-modifyApwd"
-                                                   type="submit" value="Modify">
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
-                                        </button>
-                                        <button type="button" class="btn btn-primary">OK</button>
+                <div class="xline"></div>
+                <%--<hr noshade="noshade">--%>
+                <h1 class="jumbotron-heading" style="margin: 3rem;">Account info</h1>
+                <div id="div-accountInfo">
+                    <table id="table-accountInfo" cellpadding="15" cellspacing="10" rules="none">
+                        <tbody>
+                        <tr>
+                            <td>Balance:</td>
+                            <td id="td-balance"><%=((Account) request.getAttribute("account")).getBalance()%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pay password:</td>
+                            <td id="td-apwd">
+                                <a id="modal-modifyApwd" href="#modal-container-modifyPwd" role="button" class="btn btn-primary"
+                                   data-toggle="modal">Modify account password</a>
+                                <div class="modal fade" id="modal-container-modifyApwd" role="dialog"
+                                     aria-labelledby="myModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabelA">
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-class" id="form-modifyApwd">
+                                                    <h2 class="form-class-heading">Modify password</h2>
+                                                    <label class="sr-only">Pre password</label>
+                                                    <input type="password" id="preApassword" class="form-control"
+                                                           placeholder="PrePassword" required
+                                                           autofocus>
+                                                    <label class="sr-only">New password</label>
+                                                    <input type="password" id="apassword" class="form-control"
+                                                           placeholder="NewPassword" required>
+                                                    <label class="sr-only">New password again</label>
+                                                    <input type="password" id="apasswordAgain" class="form-control"
+                                                           placeholder="NewPasswordAgain" required>
+                                                    <input class="btn btn-lg btn-primary btn-block" id="btn-modifyApwd"
+                                                           value="Modify">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                                </button>
+                                                <button type="button" class="btn btn-primary">OK</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
         </div>
+
+
+
         <!--
                <ul class="nav nav-tabs">
                    <li class="active"><a href="#">首页</a>
@@ -278,18 +298,75 @@
 </div>
 
 <script type="text/javascript">
-    $("#div-all").hide();
-    $(function () {
-        $("#btn-mp").click(function () {
-            $("#btn-mp").attr("class", "btn btn-primary");
-            $("#btn-fans").attr("class", "btn btn-secondary");
-            $("#btn-follows").attr("class", "btn btn-secondary");
-            $("#div-all").show();
-            $("#fm-mp").show();
-            $("#div-myFans").hide();
-            $("#div-myFollows").hide();
+    $("#a-t1").attr("class", "nav-link active");
+    $("#a-t2").attr("class", "nav-link");
+
+
+    var memberid = '<%=((Member)session.getAttribute("member")).getMemberid()%>'
+    $(document).ready(function () {
+
+        $("#btn-modifyInfo").click(function () {
+            var nickname = $("#nickname").val();
+            $.post("/member/modifyInfo", //利用ajax发起请求，这里写servlet的路径
+                {"memberid": memberid, "nickname": nickname},   //传参
+                function (data) {    //请求成功时的回调函数
+                    if (data == "Success! Wait confirm.") {
+                        alert(data);
+                        window.location.href = '/member/' + memberid + '/memberInfo';
+                    } else {
+                        alert(data);
+                    }
+                });
         });
+
+        $("#btn-modifyPwd").click(function () {
+            console.log("modify pwd!");
+            var prePwd = $("#prePassword").val();
+            var pwd = $("#password").val();
+            var pwdAgain = $("#passwordAgain").val();
+            if (pwd != pwdAgain) {
+                alert("Two new password mismatch!");
+                return false;
+            } else {
+                $.post("/member/modifyPwd", //利用ajax发起请求，这里写servlet的路径
+                    {"memberid": memberid, "prePwd": prePwd, "pwd": pwd},   //传参
+                    function (data) {    //请求成功时的回调函数
+                        console.log(data);
+                        if (data == "Success!") {
+                            alert(data);
+                            window.location.href = '/member/' + memberid + '/memberInfo';
+                        } else {
+                            alert(data);
+                        }
+                    });
+            }
+
+        });
+
+        $("#btn-modifyApwd").click(function () {
+            var preApwd = $("#preApassword").val();
+            var apwd = $("#apassword").val();
+            var apwdAgain = $("#apasswordAgain").val();
+            if (apwd != apwdAgain) {
+                alert("Two new password mismatch!");
+                return false;
+
+            } else {
+                $.post("/member/modifyApwd", //利用ajax发起请求，这里写servlet的路径
+                    {"memberid": memberid, "preApwd": preApwd, "apwd": apwd},   //传参
+                    function (data) {    //请求成功时的回调函数
+                        if (data == "Success!") {
+                            alert(data);
+                            window.location.href = '/member/' + memberid + '/memberInfo';
+                        } else {
+                            alert(data);
+                        }
+                    });
+            }
+        });
+
     });
+
 </script>
 
 

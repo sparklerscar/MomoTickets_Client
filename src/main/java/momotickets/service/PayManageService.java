@@ -44,4 +44,11 @@ public interface PayManageService {
      * @return
      */
     Account getAccount(String uid, UserType userType);
+
+    /**
+     * 更新账户密码
+     * @param account
+     * @return
+     */
+    Boolean modifyAccount(Account account);
 }

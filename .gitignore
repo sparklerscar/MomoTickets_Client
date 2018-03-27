@@ -1,4 +1,8 @@
 
 *.jar
 .idea/workspace.xml
-.idea/workspace.xml
+MomoTickets_Client.iml
+*.class
+out/*
+*.properties
+*.MF

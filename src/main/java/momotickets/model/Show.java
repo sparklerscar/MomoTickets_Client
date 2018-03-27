@@ -41,6 +41,18 @@ public class Show implements Serializable {
         this.ifOnsale = ifOnsale;
     }
 
+    public Show(String therterid, ShowType showtype, String name, String description, Date time, int floorprice, int pricegap, int columngap, int ifOnsale) {
+        this.therterid = therterid;
+        this.showtype = showtype;
+        this.name = name;
+        this.description = description;
+        this.time = time;
+        this.floorprice = floorprice;
+        this.pricegap = pricegap;
+        this.columngap = columngap;
+        this.ifOnsale = ifOnsale;
+    }
+
     public Show() {
     }
 

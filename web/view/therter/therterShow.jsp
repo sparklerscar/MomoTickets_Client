@@ -23,7 +23,7 @@
     <link rel='stylesheet' href='/css/homepage.css'/>
     <link rel='stylesheet' href='/css/userInfo.css'/>
     <link rel='stylesheet' href='/css/therterInfo.css'
-    <link rel="icon" href="/image/favicon.ico" />
+    <link rel="icon" href="/image/favicon.ico"/>
 
 </head>
 <body>
@@ -43,42 +43,100 @@
                 <h3 id="h3-therterTabTitle">therter show list.</h3>
                 <hr/>
 
+                <%--ALL,NOW,TIMEOUT--%>
+                <p id="btn-chooseOrdertypeTab">
+                    <a href="#" class="btn btn-primary" id="therterShowAll">All.</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#" class="btn btn-secondary" id="therterShowNow">Now.</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#" class="btn btn-secondary" id="therterShowTimeout">Timeout.</a>
+                </p>
+
                 <div id="div4-therter-show">
                     <%--<div class="div-singleTherterShow">--%>
-                        <%--<div class="card-therter">--%>
-                            <%--<img src="/image/show/4.jpg" alt="Card image cap" width="160px" height="100px">--%>
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="table-showInfo">
-                                    <%--<table id="table-orderInfo" cellpadding="15" cellspacing="10" rules="none">--%>
-                                    <thead>
-                                    <tr>
-                                        <th>Showid</th>
-                                        <th>Therterid</th>
-                                        <th>Showtype</th>
-                                        <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Showtime</th>
-                                        <%--<th>Remain seat</th>--%>
-                                        <th>Detail</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <%for (int i = 0; i < ((List<Show>)request.getAttribute("therterShowAll")).size(); i++) {%>
-                                    <tr>
-                                        <td id="td-showidS"><%=((List<Show>)request.getAttribute("therterShowAll")).get(i).getShowid()%></td>
-                                        <td id="td-therteridS"><%=((List<Show>)request.getAttribute("therterShowAll")).get(i).getTherterid()%></td>
-                                        <td id="td-showtypeS"><%=((List<Show>)request.getAttribute("therterShowAll")).get(i).getShowtype()%></td>
-                                        <td id="td-nameS"><%=((List<Show>)request.getAttribute("therterShowAll")).get(i).getName()%></td>
-                                        <td id="td-descriptionS"><%=((List<Show>)request.getAttribute("therterShowAll")).get(i).getDescription()%></td>
-                                        <td id="td-showtimeS"><%=dateFormat.format(((List<Show>)request.getAttribute("therterShowAll")).get(i).getTime())%></td>
-                                        <%--<td id="td-remainseatS"><%=((List<Show>)request.getAttribute("therterShowAll")).get(i).getTime()%></td>--%>
-                                        <td id="td-detailS"><span><a href="/tagSearch" class="btn btn-warning">More detail</a></span>
-                                        </td>
-                                    </tr>
-                                    <%}%>
-                                    </tbody>
-                                </table>
-                            <%--</div>--%>
+                    <%--<div class="card-therter">--%>
+                    <%--<img src="/image/show/4.jpg" alt="Card image cap" width="160px" height="100px">--%>
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="table-showInfo">
+                            <%--<table id="table-orderInfo" cellpadding="15" cellspacing="10" rules="none">--%>
+                            <thead>
+                            <tr>
+                                <th>Showid</th>
+                                <th>Therterid</th>
+                                <th>Showtype</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Showtime</th>
+                                <%--<th>Remain seat</th>--%>
+                                <th>Detail</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbody-all">
+                            <%for (int i = 0; i < ((List<Show>) request.getAttribute("therterShowAll")).size(); i++) {%>
+                            <tr>
+                                <td class="td-showidS"><%=((List<Show>) request.getAttribute("therterShowAll")).get(i).getShowid()%>
+                                </td>
+                                <td class="td-therteridS"><%=((List<Show>) request.getAttribute("therterShowAll")).get(i).getTherterid()%>
+                                </td>
+                                <td class="td-showtypeS"><%=((List<Show>) request.getAttribute("therterShowAll")).get(i).getShowtype()%>
+                                </td>
+                                <td class="td-nameS"><%=((List<Show>) request.getAttribute("therterShowAll")).get(i).getName()%>
+                                </td>
+                                <td class="td-descriptionS"><%=((List<Show>) request.getAttribute("therterShowAll")).get(i).getDescription()%>
+                                </td>
+                                <td class="td-showtimeS"><%=dateFormat.format(((List<Show>) request.getAttribute("therterShowAll")).get(i).getTime())%>
+                                </td>
+                                <%--<td class="td-remainseatS"><%=((List<Show>)request.getAttribute("therterShowAll")).get(i).getTime()%></td>--%>
+                                <td class="td-detailS"><span><a href=""
+                                                                class="btn btn-warning">More detail</a></span>
+                                </td>
+                            </tr>
+                            <%}%>
+                            </tbody>
+                            <tbody id="tbody-now">
+                            <%for (int i = 0; i < ((List<Show>) request.getAttribute("therterShowNow")).size(); i++) {%>
+                            <tr>
+                                <td class="td-showidS"><%=((List<Show>) request.getAttribute("therterShowNow")).get(i).getShowid()%>
+                                </td>
+                                <td class="td-therteridS"><%=((List<Show>) request.getAttribute("therterShowNow")).get(i).getTherterid()%>
+                                </td>
+                                <td class="td-showtypeS"><%=((List<Show>) request.getAttribute("therterShowNow")).get(i).getShowtype()%>
+                                </td>
+                                <td class="td-nameS"><%=((List<Show>) request.getAttribute("therterShowNow")).get(i).getName()%>
+                                </td>
+                                <td class="td-descriptionS"><%=((List<Show>) request.getAttribute("therterShowNow")).get(i).getDescription()%>
+                                </td>
+                                <td class="td-showtimeS"><%=dateFormat.format(((List<Show>) request.getAttribute("therterShowNow")).get(i).getTime())%>
+                                </td>
+                                <%--<td class="td-remainseatS"><%=((List<Show>)request.getAttribute("therterShowNow")).get(i).getTime()%></td>--%>
+                                <td class="td-detailS"><span><a href=""
+                                                                class="btn btn-warning">More detail</a></span>
+                                </td>
+                            </tr>
+                            <%}%>
+                            </tbody>
+                            <tbody id="tbody-timeout">
+                            <%for (int i = 0; i < ((List<Show>) request.getAttribute("therterShowTimeout")).size(); i++) {%>
+                            <tr>
+                                <td class="td-showidS"><%=((List<Show>) request.getAttribute("therterShowTimeout")).get(i).getShowid()%>
+                                </td>
+                                <td class="td-therteridS"><%=((List<Show>) request.getAttribute("therterShowTimeout")).get(i).getTherterid()%>
+                                </td>
+                                <td class="td-showtypeS"><%=((List<Show>) request.getAttribute("therterShowTimeout")).get(i).getShowtype()%>
+                                </td>
+                                <td class="td-nameS"><%=((List<Show>) request.getAttribute("therterShowTimeout")).get(i).getName()%>
+                                </td>
+                                <td class="td-descriptionS"><%=((List<Show>) request.getAttribute("therterShowTimeout")).get(i).getDescription()%>
+                                </td>
+                                <td class="td-showtimeS"><%=dateFormat.format(((List<Show>) request.getAttribute("therterShowTimeout")).get(i).getTime())%>
+                                </td>
+                                <%--<td class="td-remainseatS"><%=((List<Show>)request.getAttribute("therterShowTimeout")).get(i).getTime()%></td>--%>
+                                <td class="td-detailS"><span><a href=""
+                                                                class="btn btn-warning">More detail</a></span>
+                                </td>
+                            </tr>
+                            <%}%>
+                            </tbody>
+                        </table>
+                        <%--</div>--%>
                         <%--</div>--%>
                     </div>
 
@@ -110,12 +168,42 @@
     $("#a-t6").attr("class", "nav-link");
     $("#a-t7").attr("class", "nav-link");
 
+
+    $("#tbody-all").show();
+    $("#tbody-now").hide();
+    $("#tbody-timeout").hide();
+    $(function () {
+        $(".btn-secondary").click(function () {
+            $(".btn-primary").attr("class", "btn btn-secondary");
+            $(this).attr("class", "btn btn-primary");
+        });
+
+        $("#therterShowAll").click(function () {
+            $(".btn-primary").attr("class", "btn btn-secondary");
+            $(this).attr("class", "btn btn-primary");
+            $("#tbody-all").show();
+            $("#tbody-now").hide();
+            $("#tbody-timeout").hide();
+        });
+        $("#therterShowNow").click(function () {
+            $("#tbody-all").hide();
+            $("#tbody-now").show();
+            $("#tbody-timeout").hide();
+        });
+        $("#therterShowTimeout").click(function () {
+            $("#tbody-all").hide();
+            $("#tbody-now").hide();
+            $("#tbody-timeout").show();
+        });
+
+    });
+
 </script>
 <%--<script type="text/javascript">--%>
-    <%--$(function() {--%>
-        <%--var userid = '<%=((Therter)session.getAttribute("therter")).getTherterid()%>';--%>
-        <%--alert(userid);--%>
-    <%--});--%>
+<%--$(function() {--%>
+<%--var userid = '<%=((Therter)session.getAttribute("therter")).getTherterid()%>';--%>
+<%--alert(userid);--%>
+<%--});--%>
 <%--</script>--%>
 
 </body>

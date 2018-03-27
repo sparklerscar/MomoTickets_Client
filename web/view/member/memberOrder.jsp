@@ -32,15 +32,15 @@
     <jsp:include page="/view/header.jsp"></jsp:include>
     <div class="container">
         <%SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");%>
-        <%List<Order> orderListAll = (List<Order>) request.getAttribute("therterOrderAll");%>
-        <%List<Order> orderListPayed = (List<Order>) request.getAttribute("therterOrderPayed");%>
-        <%List<Order> orderListWait = (List<Order>) request.getAttribute("therterOrderWait");%>
-        <%List<Order> orderListCancel = (List<Order>) request.getAttribute("therterOrderCancel");%>
-        <%List<Order> orderListClosed = (List<Order>) request.getAttribute("therterOrderClosed");%>
-        <%List<Order> orderListUsed = (List<Order>) request.getAttribute("therterOrderUsed");%>
+        <%List<Order> orderListAll = (List<Order>) request.getAttribute("memberOrderAll");%>
+        <%List<Order> orderListPayed = (List<Order>) request.getAttribute("memberOrderPayed");%>
+        <%List<Order> orderListWait = (List<Order>) request.getAttribute("memberOrderWait");%>
+        <%List<Order> orderListCancel = (List<Order>) request.getAttribute("memberOrderCancel");%>
+        <%List<Order> orderListClosed = (List<Order>) request.getAttribute("memberOrderClosed");%>
+        <%List<Order> orderListUsed = (List<Order>) request.getAttribute("memberOrderUsed");%>
         <%System.out.println("orderListPayed.size: "+orderListPayed.size());%>
         <div class="div-therter">
-            <jsp:include page="/view/therter/therterLeft.jsp"></jsp:include>
+            <jsp:include page="/view/member/memberLeft.jsp"></jsp:include>
 
             <div class="div-contentRight">
                 <%--<p>This is a test!</p>--%>
@@ -50,12 +50,12 @@
 
                 <%--ALL, PAYED, WAIT, CANCEL, CLOSED, USED--%>
                 <p id="btn-chooseOrdertypeTab">
-                    <a href="#" class="btn btn-primary" id="therterOrderAll">All.</a>&nbsp;&nbsp;&nbsp;
-                    <a href="#" class="btn btn-secondary" id="therterOrderPayed">Payed.</a>&nbsp;&nbsp;&nbsp;
-                    <a href="#" class="btn btn-secondary" id="therterOrderWait">Wait.</a>&nbsp;&nbsp;&nbsp;
-                    <a href="#" class="btn btn-secondary" id="therterOrderCancel">Cancel.</a>&nbsp;&nbsp;&nbsp;
-                    <a href="#" class="btn btn-secondary" id="therterOrderClosed">Closed.</a>&nbsp;&nbsp;&nbsp;
-                    <a href="#" class="btn btn-secondary" id="therterOrderUsed">Used.</a>
+                    <a href="#" class="btn btn-primary" id="memberOrderAll">All.</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#" class="btn btn-secondary" id="memberOrderPayed">Payed.</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#" class="btn btn-secondary" id="memberOrderWait">Wait.</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#" class="btn btn-secondary" id="memberOrderCancel">Cancel.</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#" class="btn btn-secondary" id="memberOrderClosed">Closed.</a>&nbsp;&nbsp;&nbsp;
+                    <a href="#" class="btn btn-secondary" id="memberOrderUsed">Used.</a>
                 </p>
 
                 <div id="div5-therter-order">
@@ -276,12 +276,6 @@
             </div>
         </div>
 
-        <form method="post" id="passForm">
-            <input id='test2' type='hidden' name="test2">
-        </form>
-
-        <%--<input value="therterOrderAll" type="text" id="orderType" name="orderType">--%>
-
         <footer class="text-muted">
             <div class="container-footer">
                 <p class="float-right">
@@ -294,13 +288,7 @@
 
 <script type="text/javascript">
     $("#a-t1").attr("class", "nav-link");
-    $("#a-t2").attr("class", "nav-link");
-    $("#a-t3").attr("class", "nav-link");
-    $("#a-t4").attr("class", "nav-link");
-    $("#a-t5").attr("class", "nav-link active");
-    $("#a-t6").attr("class", "nav-link");
-    $("#a-t7").attr("class", "nav-link");
-
+    $("#a-t2").attr("class", "nav-link active");
 
     $("#orderType").hide();
     $("#tbody-all").show();
@@ -315,10 +303,10 @@
             $(this).attr("class", "btn btn-primary");
         });
 
-        $("#therterOrderAll").click(function () {
+        $("#memberOrderAll").click(function () {
             $(".btn-primary").attr("class", "btn btn-secondary");
             $(this).attr("class", "btn btn-primary");
-            $("#orderType").attr("value", "therterOrderAll");
+            $("#orderType").attr("value", "memberOrderAll");
             $("#tbody-all").show();
             $("#tbody-payed").hide();
             $("#tbody-wait").hide();
@@ -326,8 +314,8 @@
             $("#tbody-closed").hide();
             $("#tbody-used").hide();
         });
-        $("#therterOrderPayed").click(function () {
-            $("#orderType").attr("value", "therterOrderPayed");
+        $("#memberOrderPayed").click(function () {
+            $("#orderType").attr("value", "memberOrderPayed");
             $("#tbody-all").hide();
             $("#tbody-payed").show();
             $("#tbody-wait").hide();
@@ -335,8 +323,8 @@
             $("#tbody-closed").hide();
             $("#tbody-used").hide();
         });
-        $("#therterOrderWait").click(function () {
-            $("#orderType").attr("value", "therterOrderWait");
+        $("#memberOrderWait").click(function () {
+            $("#orderType").attr("value", "memberOrderWait");
             $("#tbody-all").hide();
             $("#tbody-payed").hide();
             $("#tbody-wait").show();
@@ -344,8 +332,8 @@
             $("#tbody-closed").hide();
             $("#tbody-used").hide();
         });
-        $("#therterOrderCancel").click(function () {
-            $("#orderType").attr("value", "therterOrderCancel");
+        $("#memberOrderCancel").click(function () {
+            $("#orderType").attr("value", "memberOrderCancel");
             $("#tbody-all").hide();
             $("#tbody-payed").hide();
             $("#tbody-wait").hide();
@@ -353,8 +341,8 @@
             $("#tbody-closed").hide();
             $("#tbody-used").hide();
         });
-        $("#therterOrderClosed").click(function () {
-            $("#orderType").attr("value", "therterOrderClosed");
+        $("#memberOrderClosed").click(function () {
+            $("#orderType").attr("value", "memberOrderClosed");
             $("#tbody-all").hide();
             $("#tbody-payed").hide();
             $("#tbody-wait").hide();
@@ -362,8 +350,8 @@
             $("#tbody-closed").show();
             $("#tbody-used").hide();
         });
-        $("#therterOrderUsed").click(function () {
-            $("#orderType").attr("value", "therterOrderUsed");
+        $("#memberOrderUsed").click(function () {
+            $("#orderType").attr("value", "memberOrderUsed");
             $("#tbody-all").hide();
             $("#tbody-payed").hide();
             $("#tbody-wait").hide();
@@ -374,25 +362,9 @@
         });
 
     });
-    /**
-     * jsp获取js变量，form隐藏提交
-     * @type {string}
-     */
-    // var test1 = orderTypeJS; //定义js变量
-    // console.log("test1: "+test1);
-    // document.form.test2.value = test1;
-    // //将js变量的值放到form中的一个隐藏域中
-    // var formObj = document.getElementById('passForm');
-    // formObj.submit();
 
 </script>
 
-<%--<script type="text/javascript">--%>
-<%--$(function() {--%>
-<%--var userid = '<%=((Therter)session.getAttribute("therter")).getTherterid()%>';--%>
-<%--alert(userid);--%>
-<%--});--%>
-<%--</script>--%>
 </body>
 </body>
 </html>

@@ -92,4 +92,18 @@ public interface TherterManageService {
      * @return
      */
     List<Show> getShowByTherter(String therterid, TimeType timeType);
+
+    /**
+     * 得到单条show的信息
+     * @param showid
+     * @return
+     */
+    Show getSingleShow(int showid);
+
+    /**
+     * 修改场馆密码，无需审核
+     * @param therter
+     * @return
+     */
+    Boolean modifyTherterPwd(Therter therter);
 }

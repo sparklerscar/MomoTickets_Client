@@ -136,6 +136,17 @@ a {
     margin: 80px auto 10px;
 }
 
+#form-confirmActive {
+min-width: 400px;
+    margin-left: 340px;
+    margin-top: 250px;
+}
+
+#btn-confirmActive {
+    /*margin-left: 300px;*/
+    margin-top: 50px;
+}
+
 /************container, footer*******************/
 .container {
     margin-left: auto;

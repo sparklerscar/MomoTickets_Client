@@ -143,3 +143,7 @@ table
 table td, table th {
     text-align: center;
 }
+
+.table-striped th,.table-striped td{
+    font-size: 14px;
+}

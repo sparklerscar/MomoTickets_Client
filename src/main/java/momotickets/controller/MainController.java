@@ -13,12 +13,10 @@ import momotickets.service.UserManageService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -69,6 +67,12 @@ public class MainController {
     public String getTherterInfo() {
         return "/therter/therterInfo";
     }
+
+    @RequestMapping("/registerActive")
+    public String getRegisterActive() {
+        return "/user/registerActive";
+    }
+
 
 
     @RequestMapping(value = "/register/member", method = RequestMethod.POST)
@@ -211,8 +215,19 @@ public class MainController {
 //        return returnType;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/confirmActive")
+    public String registerActive(HttpServletRequest request) {
+        String email = request.getParameter("email");
+        System.out.println("email: "+email);
+        UserManageService userManageService = (UserManageService) EJBFactory.getEJB("UserManageServiceBean", "momotickets.service.UserManageService");
+        if(userManageService.activeMember(email)){
+            return "Active success!";
+        }else {
+            return "Fail! Please try again.";
+        }
 
-
+    }
 
 }
 

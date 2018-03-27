@@ -1,5 +1,4 @@
-<%@ page import="momotickets.model.Therter" %>
-<%--
+<%@ page import="momotickets.model.Therter" %><%--
   Created by IntelliJ IDEA.
   User: sparkler
   Date: 2018/3/15
@@ -109,7 +108,7 @@
                                 </tr>
                             </table>
                             <input type="button" href="#" class="btn btn-primary" id="btn-publishShow" value="Publish."
-                                   onclick="publishShow()">
+                                   onclick="publishShow();">
                         </form>
                     </div>
 
@@ -208,31 +207,43 @@
         params.columngap = $("#input-columngap").val();
         console.log("params.floorprice,...,...: \n" + params.floorprice + " " + params.pricegap + " " + params.columngap);
 
-        $.ajax({
-            type: "POST",
-            url: "/therter/publishNewShow",
-            async: false,
-            data: params,
-            dataType: "json",
-            // contentType: "application/json; charset=utf-8",//此处不能设置，否则后台无法接值
-            success: function (result) {
-                if (result.msg != "") {
-                    console.log("result: " + result.msg);
-                    alert(result.msg);
-                }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("WRONG!");
-                console.log(XMLHttpRequest.status + "\n" + XMLHttpRequest.readyState + "\n" + textStatus);
-                // alert(XMLHttpRequest.status);
-                // alert(XMLHttpRequest.readyState);
-                // alert(textStatus);
+        $.get("/therter/publishNewShow?therterid=" + params.therterid
+            + "&showtype=" + params.showtype + "&name=" + params.name
+            + "&description=" + params.description + "&time=" + params.time
+            + "&floorprice=" + params.floorprice + "&pricegap=" + params.pricegap
+            + "&columngap=" + params.columngap, function (data) {
+            if (data == "Success!") {
+                alert(data);
+                // window.location.href = "/login";
+            } else {
+                alert(data);
             }
-            // error:function(result){
-            //     console.log("result: "+result);
-            //     alert("出现异常，异常原因【" + result + "】!");
-            // }
         });
+        // $.ajax({
+        //     type: "POST",
+        //     url: "/therter/publishNewShow",
+        //     async: false,
+        //     data: params,
+        //     dataType: "json",
+        //     // contentType: "application/json; charset=utf-8",//此处不能设置，否则后台无法接值
+        //     success: function (result) {
+        //         if (result.msg != "") {
+        //             console.log("result: " + result.msg);
+        //             alert(result.msg);
+        //         }
+        //     },
+        //     error: function (XMLHttpRequest, textStatus, errorThrown) {
+        //         alert("WRONG!");
+        //         console.log(XMLHttpRequest.status + "\n" + XMLHttpRequest.readyState + "\n" + textStatus);
+        //         // alert(XMLHttpRequest.status);
+        //         // alert(XMLHttpRequest.readyState);
+        //         // alert(textStatus);
+        //     }
+        //     // error:function(result){
+        //     //     console.log("result: "+result);
+        //     //     alert("出现异常，异常原因【" + result + "】!");
+        //     // }
+        // });
     }
 
 
