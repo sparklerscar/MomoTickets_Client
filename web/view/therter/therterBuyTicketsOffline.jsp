@@ -40,7 +40,7 @@
             <div class="div-contentRight">
                 <%--<p>This is a test!</p>--%>
                 <hr/>
-                <h3 id="h3-therterTabTitle">Check in.</h3>
+                <h3 id="h3-therterTabTitle">Buy tickets offline.</h3>
                 <hr/>
 
                 <div id="div2-buyTickets-offline">
@@ -73,8 +73,8 @@
 </script>
 <script type="text/javascript">
     $("#a-t1").attr("class", "nav-link");
-    $("#a-t2").attr("class", "nav-link active");
-    $("#a-t3").attr("class", "nav-link");
+    $("#a-t2").attr("class", "nav-link");
+    $("#a-t3").attr("class", "nav-link active");
     $("#a-t4").attr("class", "nav-link");
     $("#a-t5").attr("class", "nav-link");
     $("#a-t6").attr("class", "nav-link");
@@ -84,7 +84,6 @@
 
     function searchShowById() {
         var showid = $("#input-searchShowId").val();
-        console.log("orderid: " + orderid);
         $.get("/therter/searchShowById?showid=" + showid+"&therterid="+therterid, function (map) {
             var ifOnsale = map.ifOnsale;
             var isOwn = map.isOwn;
