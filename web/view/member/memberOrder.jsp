@@ -112,8 +112,9 @@
                                              class="btn btn-warning"
                                              value="Cancel"></span>
                                 <%} else if (orderListAll.get(i).getState().equals(OrderType.WAIT)) {%>
-                                <span><input onclick="payForOrderFunc(<%=orderListAll.get(i).getOrderid()%>);" type="button"
-                                             class="btn btn-warning" value="Pay"></span>
+                           <span><input
+                                   onclick="payForOrder(<%=orderListAll.get(i).getOrderid()%>);" type="button"
+                                    class="btn btn-warning" value="Pay"></span>
                                 <%}%>
                             </td>
                         </tr>
@@ -180,7 +181,7 @@
                             <td class="td-ordertimeO"><%=dateFormat.format(orderListWait.get(i).getTime())%>
                             </td>
                             <td class="td-detailO"><span><input
-                                    onclick="payForOrderFunc(<%=orderListAll.get(i).getOrderid()%>);" type="button"
+                                    onclick="payForOrder(<%=dateFormat.format(orderListWait.get(i).getOrderid()%>);" type="button"
                                     class="btn btn-warning" value="Pay"></span>
                             </td>
                         </tr>
@@ -285,6 +286,37 @@
             </div>
         </div>
 
+        <div class="modal fade" id="modal-container-payForOrder" role="dialog"
+             aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel2">
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-class" id="form-payForOrder">
+                            <h2 class="form-class-heading" >Pay for order</h2>
+                            <label class="sr-only">accountPwd</label>
+                            <input type="password" class="accountPwd" class="form-control"
+                                   placeholder="account pwd" required>
+                            <input class="btn btn-lg btn-primary btn-block" class="btn-payForOrder"
+                                   value="Pay">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                        </button>
+                        <button type="button" class="btn btn-primary">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <footer class="text-muted">
             <div class="container-footer">
                 <p class="float-right">
@@ -386,9 +418,21 @@
         });
     }
 
-    function payForOrderFunc(orderid) {
+    function payForOrder() {
+        var accountPwd = $("#accountPwd-<%=orderListWait.get(i).getOrderid()%>").val();
+        var orderid = $("#input-orderid-<%=orderListWait.get(i).getOrderid()%>").val();
+        $.post("/member/payForOrder",{"accountPwd":accountPwd,"orderid":orderid},function (data) {
+            if(data == "Success!"){
+                alert(data);
+                window.location.href = "/member/"+memberid+"/memberOrder";
+            } else {
+                alert(data);
+            }
+        })
 
-    }
+    })
+    <%}%>
+
 </script>
 
 </body>

@@ -93,41 +93,6 @@
             <br/>
         </div>
 
-
-        <%--<a id="modal-modifyInfo" href="#modal-container-payForOrder" role="button" class="btn btn-primary"--%>
-           <%--data-toggle="modal">Modify info</a>--%>
-        <div class="modal fade" id="modal-container-payForOrder" role="dialog"
-             aria-labelledby="myModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel2">
-                        </h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-class" id="form-payForOrder">
-                            <h2 class="form-class-heading">Pay for order</h2>
-                            <label class="sr-only">Nickname</label>
-                            <%--js设置初始nickname--%>
-                            <input type="password" id="accountPwd" class="form-control"
-                                   placeholder="account pwd" required>
-                            <input class="btn btn-lg btn-primary btn-block" id="btn-payForOrder"
-                                   value="Pay">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
-                        </button>
-                        <button type="button" class="btn btn-primary">OK</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
         <footer class="text-muted">
             <div class="container">
                 <p class="float-right">
@@ -260,6 +225,7 @@
                         $total.text(recalculateTotal(sc) + this.data().price);
                         pricePrime = recalculateTotal(sc) + this.data().price;
                         $totalWithDisc.text(((recalculateTotal(sc) + this.data().price) *<%=discMem%>) / 100.0);
+                        priceAtLast = (((recalculateTotal(sc) + this.data().price) *<%=discMem%>) / 100.0);
 
                         //根据total实时更新可用优惠券
                         var totalTemp = recalculateTotal(sc) + this.data().price;
@@ -409,7 +375,6 @@
         console.log("do function buyTickets");
         var seatChoose = JSON.stringify(seat);
 
-        var seatChooseStr
         console.log("seatChoose: " + seatChoose);
         var memberid = '<%=member.getMemberid()%>';
         var showid = <%=show.getShowid()%>;
@@ -449,7 +414,7 @@
         }, function (data) {
             if (data == "Success!") {
                 alert(data);
-                window.location.href="#modal-container-payForOrder";
+                window.location.href="/member/"+memberid+"/memberOrder";
             } else {
                 alert(data);
             }
@@ -457,11 +422,7 @@
 
     }
 
-    $("#btn-payForOrder").click(function () {
-        var accountPwd = $("#accountPwd").val();
 
-
-    })
 
 </script>
 

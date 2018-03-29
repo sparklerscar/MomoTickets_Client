@@ -139,8 +139,8 @@ public class ShowController {
 
 
         if (orderManageService.buyTicket(order, seats, coupon)) {
-            Order orderSaved = orderManageService.getOrderForId(order.getMemberid(),order.getTime());
-            int orderid = orderSaved.getOrderid();
+//            Order orderSaved = orderManageService.getOrderForId(order.getMemberid(),order.getTime());
+//            int orderid = orderSaved.getOrderid();
             result = "Success!";
         } else {
             result = "Fail! Please try again!";

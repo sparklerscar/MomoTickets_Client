@@ -159,5 +159,30 @@ public class MemberController {
         return result;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/payForOrder")
+    public String payForOrderById(HttpServletRequest request) {
+        OrderManageService orderManageService = (OrderManageService) EJBFactory.getEJB("OrderManageServiceImpl", "momotickets.service.OrderManageService");
+        PayManageService payManageService = (PayManageService) EJBFactory.getEJB("PayManageServiceImpl", "momotickets.service.PayManageService");
+
+        String result = "";
+        int orderid = Integer.parseInt(request.getParameter("orderid"));
+        String accountPwd = request.getParameter("accountPwd");
+        Order order = orderManageService.getOrderById(orderid);
+        Account account = payManageService.getAccount(order.getMemberid(),UserType.MEMBER);
+        String accountPwdTrue = account.getAccountpwd();
+        if(accountPwd.equals(accountPwdTrue)){
+            if (payManageService.payForOrder(order,accountPwd)) {
+                result = "Success!";
+            } else {
+                result = "Fail! Please try again.";
+            }
+        }else {
+            result = "Account pwd wrong!";
+        }
+
+        return result;
+    }
+
 }
 
