@@ -1,4 +1,7 @@
-<%--
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="momotickets.model.Show" %>
+<%@ page import="java.util.List" %>
+<%@ page import="momotickets.model.Manager" %><%--
   Created by IntelliJ IDEA.
   User: sparkler
   Date: 2018/3/21
@@ -20,7 +23,7 @@
     <link rel='stylesheet' href='/css/homepage.css'/>
     <link rel='stylesheet' href='/css/userInfo.css'/>
     <link rel='stylesheet' href='/css/therterInfo.css'/>
-    <link rel="icon" href="/image/favicon.ico" />
+    <link rel="icon" href="/image/favicon.ico"/>
 
 </head>
 <body>
@@ -28,53 +31,84 @@
 <div class="background-content">
     <jsp:include page="/view/header.jsp"></jsp:include>
     <div class="container">
+        <%
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            List<Show> showListY = (List<Show>) request.getAttribute("showListY");
+            List<Show> showListN = (List<Show>) request.getAttribute("showListN");
 
+        %>
 
         <div class="div-therter">
-            <jsp:include page="/view/therter/therterLeft.jsp"></jsp:include>
+            <jsp:include page="/view/manager/managerLeft.jsp"></jsp:include>
 
             <div class="div-contentRight">
                 <%--<p>This is a test!</p>--%>
                 <hr/>
-                <h3 id="h3-therterTabTitle">therter show list.</h3>
+                <h3 id="h3-therterTabTitle">Manager settle show.</h3>
                 <hr/>
 
-                <div id="div4-therter-show">
-                    <%--<div class="div-singleTherterShow">--%>
-                        <%--<div class="card-therter">--%>
-                            <%--<img src="/image/show/4.jpg" alt="Card image cap" width="160px" height="100px">--%>
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="table-showInfo">
-                                    <%--<table id="table-orderInfo" cellpadding="15" cellspacing="10" rules="none">--%>
-                                    <thead>
-                                    <tr>
-                                        <th>Showid</th>
-                                        <th>Therterid</th>
-                                        <th>Showtype</th>
-                                        <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Showtime</th>
-                                        <th>Remain seat</th>
-                                        <th>Detail</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <%for (int i = 0; i < 10; i++) {%>
-                                    <tr>
-                                        <td id="td-showidS">1</td>
-                                        <td id="td-therteridS">0000001</td>
-                                        <td id="td-showtypeS">PLAY</td>
-                                        <td id="td-nameS">霸王别姬</td>
-                                        <td id="td-descriptionS">小剧团演出</td>
-                                        <td id="td-showtimeS">2018-03-11 14:44:40</td>
-                                        <td id="td-remainseatS">50</td>
-                                        <td id="td-detailS"><span><a href="/tagSearch" class="btn btn-warning">More detail</a></span>
-                                        </td>
-                                    </tr>
-                                    <%}%>
-                                    </tbody>
-                                </table>
-                            <%--</div>--%>
+                <div id="div2-manager-show">
+
+                    <p id="btn-chooseOrdertypeTab">
+                        <a href="#" class="btn btn-primary" id="settledShow">Settled.</a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" class="btn btn-secondary" id="waitShow">Wait.</a>
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="table-showInfo">
+                            <%--<table id="table-orderInfo" cellpadding="15" cellspacing="10" rules="none">--%>
+                            <thead>
+                            <tr>
+                                <th>Showid</th>
+                                <th>Therterid</th>
+                                <th>Showtype</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Showtime</th>
+                                <th>Detail</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbody-settledShow">
+                            <%for (int i = 0; i < showListY.size(); i++) {%>
+                            <tr>
+                                <td class="td-showidS"><%=showListY.get(i).getShowid()%>
+                                </td>
+                                <td class="td-therteridS"><%=showListY.get(i).getTherterid()%>
+                                </td>
+                                <td class="td-showtypeS"><%=showListY.get(i).getShowtype()%>
+                                </td>
+                                <td class="td-nameS"><%=showListY.get(i).getName()%>
+                                </td>
+                                <td class="td-descriptionS"><%=showListY.get(i).getDescription()%>
+                                </td>
+                                <td class="td-showtimeS"><%=dateFormat.format(showListY.get(i).getTime())%>
+                                </td>
+                                <td class="td-detailS"></td>
+                            </tr>
+                            <%}%>
+                            </tbody>
+                            <tbody id="tbody-waitShow">
+                            <%for (int i = 0; i < showListN.size(); i++) {%>
+                            <tr>
+                                <td class="td-showidS"><%=showListN.get(i).getShowid()%>
+                                </td>
+                                <td class="td-therteridS"><%=showListN.get(i).getTherterid()%>
+                                </td>
+                                <td class="td-showtypeS"><%=showListN.get(i).getShowtype()%>
+                                </td>
+                                <td class="td-nameS"><%=showListN.get(i).getName()%>
+                                </td>
+                                <td class="td-descriptionS"><%=showListN.get(i).getDescription()%>
+                                </td>
+                                <td class="td-showtimeS"><%=dateFormat.format(showListN.get(i).getTime())%>
+                                </td>
+                                <td class="td-detailS"><span><input
+                                        onclick="settleSingleShow(<%=showListN.get(i).getShowid()%>);" type="button"
+                                        class="btn btn-warning" value="Settle"></span></td>
+                            </tr>
+                            <%}%>
+                            </tbody>
+                        </table>
+                        <%--</div>--%>
                         <%--</div>--%>
                     </div>
 
@@ -99,12 +133,45 @@
 
 <script type="text/javascript">
     $("#a-t1").attr("class", "nav-link");
-    $("#a-t2").attr("class", "nav-link");
+    $("#a-t2").attr("class", "nav-link active");
     $("#a-t3").attr("class", "nav-link");
-    $("#a-t4").attr("class", "nav-link active");
-    $("#a-t5").attr("class", "nav-link");
-    $("#a-t6").attr("class", "nav-link");
-    $("#a-t7").attr("class", "nav-link");
+
+
+    $("#tbody-settledShow").show();
+    $("#tbody-waitShow").hide();
+    $(function () {
+        $(".btn-secondary").click(function () {
+            $(".btn-primary").attr("class", "btn btn-secondary");
+            $(this).attr("class", "btn btn-primary");
+        });
+
+        $("#settledShow").click(function () {
+            $(".btn-primary").attr("class", "btn btn-secondary");
+            $(this).attr("class", "btn btn-primary");
+            $("#tbody-settledShow").show();
+            $("#tbody-waitShow").hide();
+        });
+        $("#waitShow").click(function () {
+            $("#tbody-settledShow").hide();
+            $("#tbody-waitShow").show();
+        });
+
+
+    });
+
+
+    var managerid = '<%=((Manager)session.getAttribute("manager")).getManagerid()%>';
+
+    function settleSingleShow(showid) {
+        $.get("/ticketManager/settleSingleShowById", {"showid": showid}, function (data) {
+            if (data == "Success!") {
+                alert(data);
+                window.location.href = "/ticketManager/" + managerid + "/settleShow";
+            } else {
+                alert(data);
+            }
+        })
+    }
 
 </script>
 </body>

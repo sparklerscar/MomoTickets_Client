@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>User Info</title>
+    <title>Member Info</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
             integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
             crossorigin="anonymous"></script>
@@ -35,7 +35,7 @@
                 <h3 id="h3-therterTabTitle">Member basic info.</h3>
                 <hr/>
 
-                <a href="#" class="btn btn-danger" id="btn-deleteAccount">Delete account.</a>
+                <a href="#" class="btn btn-danger" id="btn-deleteAccount" onclick="deleteMember();">Delete account.</a>
 
                 <h1 class="jumbotron-heading" style="margin: 3rem;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Basic
                     info</h1>
@@ -57,7 +57,8 @@
                             <td>Password:</td>
                             <td id="td-pwd">
 
-                                <a id="modal-modifyPwd" href="#modal-container-modifyPwd" role="button" class="btn btn-primary"
+                                <a id="modal-modifyPwd" href="#modal-container-modifyPwd" role="button"
+                                   class="btn btn-primary"
                                    data-toggle="modal">Modify password</a>
                                 <div class="modal fade" id="modal-container-modifyPwd" role="dialog"
                                      aria-labelledby="myModalLabel"
@@ -65,7 +66,8 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">×
                                                 </button>
                                                 <h4 class="modal-title" id="myModalLabel">
                                                 </h4>
@@ -176,7 +178,8 @@
                         <tr>
                             <td>Pay password:</td>
                             <td id="td-apwd">
-                                <a id="modal-modifyApwd" href="#modal-container-modifyPwd" role="button" class="btn btn-primary"
+                                <a id="modal-modifyApwd" href="#modal-container-modifyApwd" role="button"
+                                   class="btn btn-primary"
                                    data-toggle="modal">Modify account password</a>
                                 <div class="modal fade" id="modal-container-modifyApwd" role="dialog"
                                      aria-labelledby="myModalLabel"
@@ -184,14 +187,15 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">×
                                                 </button>
                                                 <h4 class="modal-title" id="myModalLabelA">
                                                 </h4>
                                             </div>
                                             <div class="modal-body">
                                                 <div class="form-class" id="form-modifyApwd">
-                                                    <h2 class="form-class-heading">Modify password</h2>
+                                                    <h2 class="form-class-heading">Modify account password</h2>
                                                     <label class="sr-only">Pre password</label>
                                                     <input type="password" id="preApassword" class="form-control"
                                                            placeholder="PrePassword" required
@@ -223,7 +227,6 @@
             </div>
 
         </div>
-
 
 
         <!--
@@ -367,6 +370,17 @@
 
     });
 
+    //取消使用账户
+    function deleteMember() {
+        $.get("/member/deleteMemberAcc",{"memberid":memberid},function(data){
+            if(data == "Success!"){
+                alert(data);
+                window.location.href = "/login";
+            } else {
+                alert(data);
+            }
+        });
+    }
 </script>
 
 

@@ -48,6 +48,7 @@
                 <h3 id="h3-therterTabTitle">Therter order list.</h3>
                 <hr/>
 
+                <div id="div5-therter-order">
                 <%--ALL, PAYED, WAIT, CANCEL, CLOSED, USED--%>
                 <p id="btn-chooseOrdertypeTab">
                     <a href="#" class="btn btn-primary" id="therterOrderAll">All.</a>&nbsp;&nbsp;&nbsp;
@@ -57,8 +58,6 @@
                     <a href="#" class="btn btn-secondary" id="therterOrderClosed">Closed.</a>&nbsp;&nbsp;&nbsp;
                     <a href="#" class="btn btn-secondary" id="therterOrderUsed">Used.</a>
                 </p>
-
-                <div id="div5-therter-order">
                     <%--<img src="/image/show/4.jpg" alt="Card image cap" width="160px" height="100px">--%>
                     <%--<div class="table-responsive">--%>
                     <table class="table table-striped" id="table-orderInfo">
@@ -75,7 +74,6 @@
                             <th>Coupon</th>
                             <th>State</th>
                             <th>Ordertime</th>
-                            <th>Detail</th>
                         </tr>
                         </thead>
                         <tbody id="tbody-all">
@@ -104,9 +102,7 @@
                             </td>
                             <td class="td-ordertimeO"><%=dateFormat.format(orderListAll.get(i).getTime())%>
                             </td>
-                            <td class="td-detailO"><span><a href="/tagSearch"
-                                                         class="btn btn-warning">More detail</a></span>
-                            </td>
+
                         </tr>
                         <%}%>
                         </tbody>
@@ -135,9 +131,6 @@
                             <td class="td-stateO"><%=orderListPayed.get(i).getState()%>
                             </td>
                             <td class="td-ordertimeO"><%=dateFormat.format(orderListPayed.get(i).getTime())%>
-                            </td>
-                            <td class="td-detailO"><span><a href="/tagSearch"
-                                                         class="btn btn-warning">More detail</a></span>
                             </td>
                         </tr>
                         <%}%>
@@ -168,9 +161,6 @@
                             </td>
                             <td class="td-ordertimeO"><%=dateFormat.format(orderListWait.get(i).getTime())%>
                             </td>
-                            <td class="td-detailO"><span><a href="/tagSearch"
-                                                         class="btn btn-warning">More detail</a></span>
-                            </td>
                         </tr>
                         <%}%>
                         </tbody>
@@ -199,9 +189,6 @@
                             <td class="td-stateO"><%=orderListCancel.get(i).getState()%>
                             </td>
                             <td class="td-ordertimeO"><%=dateFormat.format(orderListCancel.get(i).getTime())%>
-                            </td>
-                            <td class="td-detailO"><span><a href="/tagSearch"
-                                                            class="btn btn-warning">More detail</a></span>
                             </td>
                         </tr>
                         <%}%>
@@ -232,9 +219,6 @@
                             </td>
                             <td class="td-ordertimeO"><%=dateFormat.format(orderListClosed.get(i).getTime())%>
                             </td>
-                            <td class="td-detailO"><span><a href="/tagSearch"
-                                                            class="btn btn-warning">More detail</a></span>
-                            </td>
                         </tr>
                         <%}%>
                         </tbody>
@@ -263,9 +247,6 @@
                             <td class="td-stateO"><%=orderListUsed.get(i).getState()%>
                             </td>
                             <td class="td-ordertimeO"><%=dateFormat.format(orderListUsed.get(i).getTime())%>
-                            </td>
-                            <td class="td-detailO"><span><a href="/tagSearch"
-                                                            class="btn btn-warning">More detail</a></span>
                             </td>
                         </tr>
                         <%}%>

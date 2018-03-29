@@ -13,13 +13,25 @@ public class Seat implements Serializable {
     private int orderid;
     private int ifBought;
 
-    public Seat(int seatid, int row, int column, int showid, int orderid, int ifBought) {
+    public int getSeatprice() {
+        return seatprice;
+    }
+
+    public void setSeatprice(int seatprice) {
+        this.seatprice = seatprice;
+    }
+
+    private int seatprice;
+
+
+    public Seat(int seatid, int row, int column, int showid, int orderid, int ifBought, int seatprice) {
         this.seatid = seatid;
         this.row = row;
         this.column = column;
         this.showid = showid;
         this.orderid = orderid;
         this.ifBought = ifBought;
+        this.seatprice = seatprice;
     }
 
     public Seat() {

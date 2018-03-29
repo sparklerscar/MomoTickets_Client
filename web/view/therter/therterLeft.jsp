@@ -61,9 +61,9 @@
             <li class="nav-item">
                 <a id="a-t6" class="nav-link" href="/therter/<%=((Therter)session.getAttribute("therter")).getTherterid()%>/therterInfo">查看或修改场馆信息</a>
             </li>
-            <li class="nav-item">
-                <a id="a-t7" class="nav-link" href="/therter/<%=((Therter)session.getAttribute("therter")).getTherterid()%>/discAndCoupon">查看或修改优惠政策</a>
-            </li>
+            <%--<li class="nav-item">--%>
+                <%--<a id="a-t7" class="nav-link" href="/therter/<%=((Therter)session.getAttribute("therter")).getTherterid()%>/discAndCoupon">查看或修改优惠政策</a>--%>
+            <%--</li>--%>
         </ul>
 
     </nav>

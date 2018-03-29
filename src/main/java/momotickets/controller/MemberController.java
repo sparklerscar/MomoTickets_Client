@@ -5,6 +5,7 @@ import momotickets.enumtype.*;
 import momotickets.factory.EJBFactory;
 import momotickets.model.Account;
 import momotickets.model.Member;
+import momotickets.model.Order;
 import momotickets.service.OrderManageService;
 import momotickets.service.PayManageService;
 import momotickets.service.TherterManageService;
@@ -22,24 +23,23 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping(value = "/member")
-public class UserController {
+public class MemberController {
     private static final long serialVersionUID = 1L;
 
     @RequestMapping(value = "/{userid}/memberInfo", method = RequestMethod.GET)
-    public ModelAndView getMemberInfo(@PathVariable String userid,
-                                      HttpSession session) {
+    public ModelAndView getMemberInfo(@PathVariable String userid) {
         UserManageService userManageService = (UserManageService) EJBFactory.getEJB("UserManageServiceBean", "momotickets.service.UserManageService");
         PayManageService payManageService = (PayManageService) EJBFactory.getEJB("PayManageServiceImpl", "momotickets.service.PayManageService");
         //        StrEnumChange strEnumChange = new StrEnumChange();
         ModelAndView modelAndView = new ModelAndView("/member/memberInfo");
         modelAndView.addObject("member", userManageService.getMember(userid));
-        modelAndView.addObject("account", payManageService.getAccount(userid,UserType.MEMBER));
+        modelAndView.addObject("account", payManageService.getAccount(userid, UserType.MEMBER));
         return modelAndView;
     }
 
     @RequestMapping(value = "/homepage", method = RequestMethod.GET)
     public ModelAndView doLogin(HttpServletRequest request,
-                          HttpServletResponse response) {
+                                HttpServletResponse response) {
         TherterManageService therterManageService = (TherterManageService) EJBFactory.getEJB("TherterManageServiceImpl", "momotickets.service.TherterManageService");
         StrEnumChange strEnumChange = new StrEnumChange();
         ModelAndView modelAndView = new ModelAndView("/homepage");
@@ -48,65 +48,66 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/modifyInfo", method=RequestMethod.POST)
+    @RequestMapping(value = "/modifyInfo", method = RequestMethod.POST)
     public String modifyInfo(HttpServletRequest request) {
         UserManageService userManageService = (UserManageService) EJBFactory.getEJB("UserManageServiceBean", "momotickets.service.UserManageService");
 
-        String name=request.getParameter("nickname");
+        String name = request.getParameter("nickname");
         String memberid = request.getParameter("memberid");
         Member member = userManageService.getMember(memberid);
         member.setName(name);
         String result = "";
-        if(userManageService.modifyMember(member)){
-            result = "Success! Wait confirm.";
+        if (userManageService.modifyMember(member)) {
+            result = "Success!";
         } else {
-            result = "Fail! Please submit again.";
+            result = "Fail! Please try again.";
         }
         return result;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/modifyPwd", method=RequestMethod.POST)
+    @RequestMapping(value = "/modifyPwd", method = RequestMethod.POST)
     public String modifyPwd(HttpServletRequest request) {
         UserManageService userManageService = (UserManageService) EJBFactory.getEJB("UserManageServiceBean", "momotickets.service.UserManageService");
         String result = "";
-        String prePwd=request.getParameter("prePwd");
-        String pwd=request.getParameter("pwd");
+        String prePwd = request.getParameter("prePwd");
+        String pwd = request.getParameter("pwd");
         String memberid = request.getParameter("memberid");
         Member member = userManageService.getMember(memberid);
         String prePwdTrue = member.getPwd();
-        if(prePwd.equals(prePwdTrue)){
+        if (prePwd.equals(prePwdTrue)) {
             member.setPwd(pwd);
-            if(userManageService.modifyMember(member)){
+            if (userManageService.modifyMember(member)) {
                 result = "Success!";
             } else {
                 result = "Fail! Please try again.";
             }
-        }else {
+        } else {
             result = "Pre password wrong! Please try again.";
         }
-        System.out.println("result: "+result);
+        System.out.println("result: " + result);
         return result;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/modifyApwd", method=RequestMethod.POST)
+    @RequestMapping(value = "/modifyApwd", method = RequestMethod.POST)
     public String modifyApwd(HttpServletRequest request) {
+        System.out.println("Modify account pwd!");
         PayManageService payManageService = (PayManageService) EJBFactory.getEJB("PayManageServiceImpl", "momotickets.service.PayManageService");
         String result = "";
-        String preApwd=request.getParameter("preApwd");
-        String apwd=request.getParameter("apwd");
+        String preApwd = request.getParameter("preApwd");
+        String apwd = request.getParameter("apwd");
         String memberid = request.getParameter("memberid");
-        Account account = payManageService.getAccount(memberid,UserType.THERTER);
+        Account account = payManageService.getAccount(memberid, UserType.THERTER);
         String preApwdTrue = account.getAccountpwd();
-        if(preApwd.equals(preApwdTrue)){
+        if (preApwd.equals(preApwdTrue)) {
             account.setAccountpwd(apwd);
-            if(payManageService.modifyAccount(account)){
+            if (payManageService.modifyAccount(account)) {
                 result = "Success!";
             } else {
                 result = "Fail! Please try again.";
             }
-        }else {
+        } else {
             result = "Pre password wrong! Please try again.";
         }
         return result;
@@ -124,6 +125,38 @@ public class UserController {
         modelAndView.addObject("memberOrderClosed", orderManageService.getOrder(userid, UserType.MEMBER, OrderType.CLOSED));
         modelAndView.addObject("memberOrderUsed", orderManageService.getOrder(userid, UserType.MEMBER, OrderType.USED));
         return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/cancelOrder")
+    public String cancelOrder(HttpServletRequest request) {
+        OrderManageService orderManageService = (OrderManageService) EJBFactory.getEJB("OrderManageServiceImpl", "momotickets.service.OrderManageService");
+        String result = "";
+        int orderid = Integer.parseInt(request.getParameter("orderid"));
+        System.out.println("cancel orderid: " + orderid);
+        Order order = orderManageService.getOrderById(orderid);
+        System.out.println("order.getOrderState: " + order.getState());
+        if (orderManageService.cancelOrder(order, CancelType.CANCEL)) {
+            result = "Success!";
+        } else {
+            result = "Fail! Please try again.";
+        }
+        System.out.println("cancel order result: " + result);
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/deleteMemberAcc")
+    public String deleteMemberAccount(HttpServletRequest request) {
+        String memberid = request.getParameter("memberid");
+        UserManageService userManageService = (UserManageService) EJBFactory.getEJB("UserManageServiceBean", "momotickets.service.UserManageService");
+        String result = "";
+        if (userManageService.cancelMember(memberid)) {
+            result = "Success!";
+        } else {
+            result = "Fail! Please try again!";
+        }
+        return result;
     }
 
 }

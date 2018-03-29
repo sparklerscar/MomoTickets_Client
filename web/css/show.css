@@ -20,7 +20,12 @@
     position: absolute;
     /*float: right;*/
     /*top:20px;*/
-    left: 350px;
+    left: 400px;
+}
+
+.span-price {
+    font-size: 24px;
+    color: #cc5500;
 }
 
 /****************table**********************/

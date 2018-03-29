@@ -1,7 +1,9 @@
 .demo {
     /*float: right;*/
-    margin-left: 180px;
-    width: 850px;
+    margin-left: 100px;
+    margin-top: 30px;
+    margin-bottom: 200px;
+    width: 950px;
 }
 
 #seat-map {
@@ -9,7 +11,7 @@
 }
 
 .front {
-    width: 300px;
+    width: 400px;
     margin: 5px 32px 45px 32px;
     background-color: #f0f0f0;
     color: #666;
@@ -21,9 +23,9 @@
 .booking-details {
     float: right;
     position: relative;
-    margin-top: 50px;
+    margin-top: 20px;
     margin-left: 20px;
-    width: 300px;
+    width: 400px;
     height: 450px;
 }
 
@@ -89,13 +91,24 @@ div.seatCharts-seat.unavailable {
 /*first class css*/
 div.seatCharts-seat.available.first-class {
     /* 	background: url(vip.png); */
-    background-color: #3a78c3;
+    background-color: rgba(51, 189, 134, 0.8);
 }
+div.seatCharts-seat.available.second-class {
+    /* 	background: url(vip.png); */
+    background-color: rgba(138, 236, 90, 0.84);
+}
+div.seatCharts-seat.available.third-class {
+    /* 	background: url(vip.png); */
+    background-color: rgba(196, 236, 92, 0.83);
+}
+/*div.seatCharts-seat.available.fourth-class {*/
+    /*!* 	background: url(vip.png); *!*/
+    /*background-color: #3a78c3;*/
+/*}*/
 
 
 
 /**********************************************/
-
 
 
 div.seatCharts-container {
@@ -106,9 +119,8 @@ div.seatCharts-container {
 }
 
 div.seatCharts-legend {
-    padding-left: 0px;
     position: absolute;
-    bottom: 16px;
+    /*bottom: 16px;*/
 }
 
 ul.seatCharts-legendList {
@@ -129,8 +141,8 @@ span.seatCharts-legendDescription {
 
 .checkout-button {
     display: block;
-    width: 80px;
-    height: 24px;
+    /*width: 60px;*/
+    height: 40px;
     line-height: 20px;
     margin: 10px auto;
     border: 1px solid #999;
@@ -161,3 +173,16 @@ span.seatCharts-legendDescription {
 
 
 /*************************************/
+
+#div-bookingInfo {
+    margin-top: 80px;
+}
+
+#btn-redeemCoupon {
+    text-align: center;
+    font-size: 14px;
+    max-width: 100px;
+    max-height: 35px;
+    margin-top: 10px;
+    margin-left: 160px;
+}

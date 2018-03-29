@@ -35,6 +35,19 @@ public class Order implements Serializable {
         this.time = time;
     }
 
+    public Order(String memberid, int showid, int ifOnline, int ifChosen, int amount, double price, double discount, int coupon, OrderType state, Date time) {
+        this.memberid = memberid;
+        this.showid = showid;
+        this.ifOnline = ifOnline;
+        this.ifChosen = ifChosen;
+        this.amount = amount;
+        this.price = price;
+        this.discount = discount;
+        this.coupon = coupon;
+        this.state = state;
+        this.time = time;
+    }
+
     public Order() {
     }
 
@@ -125,5 +138,6 @@ public class Order implements Serializable {
     public void setTime(Date time) {
         this.time = time;
     }
+
 
 }

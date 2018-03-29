@@ -1,3 +1,4 @@
+<%@ page import="momotickets.model.Manager" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="div-chooseTabTherter">
     <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
@@ -35,20 +36,17 @@
         -->
         <ul class="nav nav-pills flex-column">
             <li class="nav-item">
-                <a id="a-t1" class="nav-link active" href="/view/therter/therterPublishShow.jsp">审批场馆</a>
+                <a id="a-t1" class="nav-link active" href="/ticketManager/<%=((Manager)session.getAttribute("manager")).getManagerid()%>/checkTherter">审批场馆</a>
                 <%--<span class="sr-only">(current)</span>--%>
             </li>
             <li class="nav-item">
-                <a id="a-t2" class="nav-link" href="/view/therter/therterCheckIn.jsp">结算订单</a>
-            </li>
-            <li class="nav-item">
-                <a id="a-t3" class="nav-link" href="/view/therter/therterBuyTicketT.jsp">线下购票</a>
+                <a id="a-t2" class="nav-link" href="/ticketManager/<%=((Manager)session.getAttribute("manager")).getManagerid()%>/settleShow">结算订单</a>
             </li>
         </ul>
 
         <ul class="nav nav-pills flex-column">
             <li class="nav-item">
-                <a id="a-t4" class="nav-link" href="/view/therter/therterShow.jsp">统计信息</a>
+                <a id="a-t3" class="nav-link" href="/ticketManager/<%=((Manager)session.getAttribute("manager")).getManagerid()%>/statistics">统计信息</a>
             </li>
         </ul>
     </nav>

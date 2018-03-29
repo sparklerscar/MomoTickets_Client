@@ -184,7 +184,7 @@
                             <tr>
                                 <td>Pay password:</td>
                                 <td id="td-apwd">
-                                    <a id="modal-modifyApwd" href="#modal-container-modifyPwd" role="button"
+                                    <a id="modal-modifyApwd" href="#modal-container-modifyApwd" role="button"
                                        class="btn btn-primary"
                                        data-toggle="modal">Modify account password</a>
                                     <div class="modal fade" id="modal-container-modifyApwd" role="dialog"

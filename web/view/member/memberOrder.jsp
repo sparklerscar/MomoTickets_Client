@@ -1,7 +1,9 @@
 <%@ page import="momotickets.model.Order" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="momotickets.model.Therter" %><%--
+<%@ page import="momotickets.model.Therter" %>
+<%@ page import="momotickets.enumtype.OrderType" %>
+<%@ page import="momotickets.model.Member" %><%--
   Created by IntelliJ IDEA.
   User: sparkler
   Date: 2018/3/21
@@ -11,7 +13,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Therter show</title>
+    <title>Member order</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
             integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
             crossorigin="anonymous"></script>
@@ -38,27 +40,27 @@
         <%List<Order> orderListCancel = (List<Order>) request.getAttribute("memberOrderCancel");%>
         <%List<Order> orderListClosed = (List<Order>) request.getAttribute("memberOrderClosed");%>
         <%List<Order> orderListUsed = (List<Order>) request.getAttribute("memberOrderUsed");%>
-        <%System.out.println("orderListPayed.size: "+orderListPayed.size());%>
+        <%System.out.println("orderListPayed.size: " + orderListPayed.size());%>
         <div class="div-therter">
             <jsp:include page="/view/member/memberLeft.jsp"></jsp:include>
 
             <div class="div-contentRight">
                 <%--<p>This is a test!</p>--%>
                 <hr/>
-                <h3 id="h3-therterTabTitle">Therter order list.</h3>
+                <h3 id="h3-therterTabTitle">Member order list.</h3>
                 <hr/>
 
-                <%--ALL, PAYED, WAIT, CANCEL, CLOSED, USED--%>
-                <p id="btn-chooseOrdertypeTab">
-                    <a href="#" class="btn btn-primary" id="memberOrderAll">All.</a>&nbsp;&nbsp;&nbsp;
-                    <a href="#" class="btn btn-secondary" id="memberOrderPayed">Payed.</a>&nbsp;&nbsp;&nbsp;
-                    <a href="#" class="btn btn-secondary" id="memberOrderWait">Wait.</a>&nbsp;&nbsp;&nbsp;
-                    <a href="#" class="btn btn-secondary" id="memberOrderCancel">Cancel.</a>&nbsp;&nbsp;&nbsp;
-                    <a href="#" class="btn btn-secondary" id="memberOrderClosed">Closed.</a>&nbsp;&nbsp;&nbsp;
-                    <a href="#" class="btn btn-secondary" id="memberOrderUsed">Used.</a>
-                </p>
+                <div id="div2-member-order">
 
-                <div id="div5-therter-order">
+                    <%--ALL, PAYED, WAIT, CANCEL, CLOSED, USED--%>
+                    <p id="btn-chooseOrdertypeTab">
+                        <a href="#" class="btn btn-primary" id="memberOrderAll">All.</a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" class="btn btn-secondary" id="memberOrderPayed">Payed.</a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" class="btn btn-secondary" id="memberOrderWait">Wait.</a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" class="btn btn-secondary" id="memberOrderCancel">Cancel.</a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" class="btn btn-secondary" id="memberOrderClosed">Closed.</a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" class="btn btn-secondary" id="memberOrderUsed">Used.</a>
+                    </p>
                     <%--<img src="/image/show/4.jpg" alt="Card image cap" width="160px" height="100px">--%>
                     <%--<div class="table-responsive">--%>
                     <table class="table table-striped" id="table-orderInfo">
@@ -104,8 +106,15 @@
                             </td>
                             <td class="td-ordertimeO"><%=dateFormat.format(orderListAll.get(i).getTime())%>
                             </td>
-                            <td class="td-detailO"><span><a href="/tagSearch"
-                                                         class="btn btn-warning">More detail</a></span>
+                            <td class="td-detailO">
+                                <%if (orderListAll.get(i).getState().equals(OrderType.PAYED)) {%>
+                                <span><input onclick="cancelOrderFunc(<%=orderListAll.get(i).getOrderid()%>);" type="button"
+                                             class="btn btn-warning"
+                                             value="Cancel"></span>
+                                <%} else if (orderListAll.get(i).getState().equals(OrderType.WAIT)) {%>
+                                <span><input onclick="payForOrderFunc(<%=orderListAll.get(i).getOrderid()%>);" type="button"
+                                             class="btn btn-warning" value="Pay"></span>
+                                <%}%>
                             </td>
                         </tr>
                         <%}%>
@@ -136,8 +145,10 @@
                             </td>
                             <td class="td-ordertimeO"><%=dateFormat.format(orderListPayed.get(i).getTime())%>
                             </td>
-                            <td class="td-detailO"><span><a href="/tagSearch"
-                                                         class="btn btn-warning">More detail</a></span>
+                            <td class="td-detailO"><span><input
+                                    onclick="cancelOrderFunc(<%=orderListAll.get(i).getOrderid()%>);" type="button"
+                                    class="btn btn-warning"
+                                    value="Cancel"></span>
                             </td>
                         </tr>
                         <%}%>
@@ -168,8 +179,9 @@
                             </td>
                             <td class="td-ordertimeO"><%=dateFormat.format(orderListWait.get(i).getTime())%>
                             </td>
-                            <td class="td-detailO"><span><a href="/tagSearch"
-                                                         class="btn btn-warning">More detail</a></span>
+                            <td class="td-detailO"><span><input
+                                    onclick="payForOrderFunc(<%=orderListAll.get(i).getOrderid()%>);" type="button"
+                                    class="btn btn-warning" value="Pay"></span>
                             </td>
                         </tr>
                         <%}%>
@@ -200,8 +212,7 @@
                             </td>
                             <td class="td-ordertimeO"><%=dateFormat.format(orderListCancel.get(i).getTime())%>
                             </td>
-                            <td class="td-detailO"><span><a href="/tagSearch"
-                                                            class="btn btn-warning">More detail</a></span>
+                            <td class="td-detailO">
                             </td>
                         </tr>
                         <%}%>
@@ -232,8 +243,7 @@
                             </td>
                             <td class="td-ordertimeO"><%=dateFormat.format(orderListClosed.get(i).getTime())%>
                             </td>
-                            <td class="td-detailO"><span><a href="/tagSearch"
-                                                            class="btn btn-warning">More detail</a></span>
+                            <td class="td-detailO">
                             </td>
                         </tr>
                         <%}%>
@@ -264,8 +274,7 @@
                             </td>
                             <td class="td-ordertimeO"><%=dateFormat.format(orderListUsed.get(i).getTime())%>
                             </td>
-                            <td class="td-detailO"><span><a href="/tagSearch"
-                                                            class="btn btn-warning">More detail</a></span>
+                            <td class="td-detailO">
                             </td>
                         </tr>
                         <%}%>
@@ -287,6 +296,8 @@
 </div>
 
 <script type="text/javascript">
+    var memberid = '<%=((Member)session.getAttribute("member")).getMemberid()%>';
+
     $("#a-t1").attr("class", "nav-link");
     $("#a-t2").attr("class", "nav-link active");
 
@@ -363,6 +374,21 @@
 
     });
 
+    function cancelOrderFunc(orderid) {
+        console.log("cancel orderid: "+orderid);
+        $.get("/member/cancelOrder", {"orderid": orderid}, function (data) {
+            if(data == "Success!"){
+                alert(data);
+                window.location.href = "/member/"+memberid+"/memberOrder";
+            } else {
+                alert(data);
+            }
+        });
+    }
+
+    function payForOrderFunc(orderid) {
+
+    }
 </script>
 
 </body>

@@ -48,7 +48,7 @@ body {
     float: left;
     max-width: 400px;
     min-width: 400px;
-    min-height: 260px;
+    min-height: 280px;
     padding: 0.75rem;
     margin-left: 1rem;
     margin-bottom: 1rem;
@@ -90,10 +90,6 @@ body {
     left: 200px;
 }
 
-.card-text {
-    font-size: 75%;
-    margin: 2px;
-}
 
 /***************************跑马灯*******************************/
 .carousel {
@@ -107,6 +103,13 @@ body {
     max-height: 400px;
 }
 
-/*********************therterHomepage**************************/
+/*********************showHomepage**************************/
 
-
+.card-name {
+    font-size: 21px;
+    color: #0069d9;
+}
+.span-price {
+    font-size: 20px;
+    color: #cc5500;
+}

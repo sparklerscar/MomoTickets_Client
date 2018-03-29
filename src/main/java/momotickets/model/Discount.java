@@ -18,6 +18,12 @@ public class Discount implements Serializable {
         this.percent = percent;
     }
 
+    public Discount(String therterid, int viplevel, int percent) {
+        this.therterid = therterid;
+        this.viplevel = viplevel;
+        this.percent = percent;
+    }
+
     public Discount() {
     }
 

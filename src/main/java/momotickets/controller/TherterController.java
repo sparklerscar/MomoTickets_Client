@@ -10,8 +10,6 @@ import momotickets.model.Therter;
 import momotickets.service.OrderManageService;
 import momotickets.service.PayManageService;
 import momotickets.service.TherterManageService;
-import momotickets.service.UserManageService;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,6 +44,8 @@ public class TherterController {
     @ResponseBody
     @RequestMapping(value = "/publishNewShow")
     public String publishShow(HttpServletRequest request) {
+        TherterManageService therterManageService = (TherterManageService) EJBFactory.getEJB("TherterManageServiceImpl", "momotickets.service.TherterManageService");
+
         StrEnumChange strEnumChange = new StrEnumChange();
         DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         ParsePosition pos = new ParsePosition(0);//转换长时间字符串
@@ -71,7 +69,6 @@ public class TherterController {
         }
         //xxx业务逻辑处理
         show.setIfOnsale(1);
-        TherterManageService therterManageService = (TherterManageService) EJBFactory.getEJB("TherterManageServiceImpl", "momotickets.service.TherterManageService");
         therterManageService.publishShow(show);
         result = "Success!";
         System.out.println("_______________result: " + result);
@@ -177,9 +174,14 @@ public class TherterController {
         String telnum=request.getParameter("telnum");
         String therterid = request.getParameter("therterid");
         Therter therterBefore = therterManageService.getTherter(therterid,CheckType.CHECKED);
-        Therter therterModify = therterBefore;
+        System.out.println("1"+therterBefore.getName());
+        Therter therterModify = new Therter(therterBefore.getTherterid(),therterBefore.getPwd(),therterBefore.getCheck(),therterBefore.getName(),therterBefore.getLocation(),therterBefore.getTelnum(),therterBefore.getSeat(),therterBefore.getRow(),therterBefore.getColumn(),therterBefore.getTid());
+        System.out.println("2"+therterModify.getName());
         therterModify.setName(name);
         therterModify.setTelnum(telnum);
+        System.out.println("3"+therterBefore.getName());
+        System.out.println("4"+therterModify.getName());
+
         String result = "";
         if(therterManageService.modifyTherter(therterBefore,therterModify)){
             result = "Success! Wait confirm.";

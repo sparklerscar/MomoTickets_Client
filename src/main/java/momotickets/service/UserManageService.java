@@ -26,11 +26,11 @@ public interface UserManageService {
 	 */
 	Boolean register(String email, String name, String pwd);
 
-	/**
-	 * 激活会员账号
-	 * @param email
-	 * @return
-	 */
+    /**
+     * 激活会员账号
+     * @param email
+     * @return
+     */
 	Boolean activeMember(String email);
 
 	/**
@@ -65,9 +65,9 @@ public interface UserManageService {
 
 	/**
 	 * 经理审核场馆注册和修改信息
-	 * @param therter
+     * @param therter
 	 * @param ifPassed
-	 * @param checkType
+     * @param checkType
 	 * @return
 	 */
 	Boolean checkTherterInfo(Therter therter, Boolean ifPassed, CheckType checkType);
@@ -79,4 +79,11 @@ public interface UserManageService {
 	 * @return
 	 */
 	Boolean redeemCoupon(String memberid, Coupon coupon);
+
+    /**
+     * 会员取消使用账户
+	 * @param memberid
+     * @return
+     */
+	Boolean cancelMember(String memberid);
 }

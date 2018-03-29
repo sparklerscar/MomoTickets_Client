@@ -22,7 +22,7 @@ public interface PayManageService {
     Boolean payForOrder(Order order, String accountpwd);
 
     /**
-     * 经理结算m某一演出所有订单金额
+     * 经理结算某一演出所有订单金额
      * @param showid
      * @return
      */

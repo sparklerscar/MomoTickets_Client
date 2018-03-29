@@ -85,6 +85,12 @@ public interface TherterManageService {
      */
     List<Show> getShow(TimeType timeType);
 
+    /**
+     * 得到可结算的show列表
+     * @param ifSettled
+     * @return
+     */
+    List<Show> getShowSettle(int ifSettled);
 
     /**
      * 得到某场馆根据时间条件得到的show列表
@@ -106,4 +112,38 @@ public interface TherterManageService {
      * @return
      */
     Boolean modifyTherterPwd(Therter therter);
+
+    /**
+     * 根据showid得到当前show的作为信息
+     * @param therterid
+     * @param showid
+     * @param ifBought
+     * @return
+     */
+    List<Seat> getSeatsByShow(String therterid, int showid, int ifBought);
+
+    /**
+     * 得到单条coupon信息
+     * @param couponid
+     * @return
+     */
+    Coupon getSingleCoupon(int couponid);
+
+    /**
+     * 得到场馆注册或修改信息的场馆信息列表
+     * @param checkType
+     * @return
+     */
+    List<Therter> getTherterCheck(CheckType checkType);
+
+    /**
+     * 找到单个seat
+     * @param therterid
+     * @param showid
+     * @param row
+     * @param column
+     * @return
+     */
+    Seat getSingleSeat(String therterid, int showid, int row, int column);
+
 }

@@ -1,4 +1,6 @@
-<%--
+<%@ page import="momotickets.model.Show" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.text.SimpleDateFormat" %><%--
   Created by IntelliJ IDEA.
   User: sparkler
   Date: 2018/3/8
@@ -17,12 +19,12 @@
     <link rel='stylesheet' href='/public/bootstrap-4/css/bootstrap.min.css'/>
     <link rel='stylesheet' href='/css/style.css'/>
     <link rel='stylesheet' href="/css/homepage.css">
-    <link rel="icon" href="/image/favicon.ico" />
+    <link rel="icon" href="/image/favicon.ico"/>
 
 </head>
 <body>
 <div class="background-content">
-    <jsp:include page="header.jsp"></jsp:include>
+    <jsp:include page="/view/header.jsp"></jsp:include>
     <div class="container">
         <div class="carousel slide" id="carousel-1">
             <ol class="carousel-indicators">
@@ -80,7 +82,9 @@
         <div class="album text-muted" id="div-hot">
             <div class="container-card">
                 <div class="row">
-                    <%for (int i = 0; i < 9; i++){%>
+                    <% List<Show> showList = (List<Show>)request.getAttribute("showList");%>
+                    <%SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");%>
+                    <%for (int i = 0; i < showList.size(); i++) {%>
                     <div class="card">
                         <div class="div-img">
                             <img src="/image/show/4.jpg" alt="Card image cap" width="160px" height="240px"></div>
@@ -88,32 +92,32 @@
                             <table>
                                 <tr>
                                     <td>
-                                        <p class="card-name">游园惊梦</p>
+                                        <p class="card-name"><%=showList.get(i).getName()%></p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p class="card-showtype">DRAMA</p>
+                                        <p class="card-showtype"><%=showList.get(i).getShowtype()%></p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p class="card-description">小型剧团昆曲表演</p>
+                                        <p class="card-description"><%=showList.get(i).getDescription()%></p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p class="card-time">2017/11/11</p>
+                                        <p class="card-time"><%=dateFormat.format(showList.get(i).getTime())%></p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p class="card-price">¥ 60 起</p>
+                                        <p class="card-price">¥ <span class="span-price"><%=showList.get(i).getFloorprice()%></span> 起</p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <span><a href="/tagSearch" class="btn btn-warning">More detail...</a></span>
+                                        <span><a href="/show/<%=showList.get(i).getShowid()%>/detail" class="btn btn-warning">More detail</a></span>
                                     </td>
                                 </tr>
                             </table>

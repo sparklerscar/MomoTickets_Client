@@ -19,7 +19,12 @@ public class Coupon implements Serializable {
         this.requireprice = requireprice;
         this.reduceprice = reduceprice;
     }
-
+    public Coupon(String therterid, int point, int requireprice, int reduceprice) {
+        this.therterid = therterid;
+        this.point = point;
+        this.requireprice = requireprice;
+        this.reduceprice = reduceprice;
+    }
     public Coupon() {
     }
 

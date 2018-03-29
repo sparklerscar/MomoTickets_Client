@@ -50,7 +50,23 @@ public class MainController {
 
     @RequestMapping("/login")
     public String getLogin() {
-        return "user/login";
+        return "/user/login";
+    }
+
+    @RequestMapping("/logout")
+    public void getLogout(HttpServletRequest request,HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("Content-type", "text/html;charset=UTF-8");
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
+            out.print("<script> window.location.href='/login';</script>");
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping("/homepage")
@@ -182,6 +198,8 @@ public class MainController {
         System.out.println("******************************************\nreturn type: " + returnType);
         if (returnType.equals(ReturnType.SUCCESS)) {
             session = request.getSession(true);
+//            session.setAttribute("userType",usertype);
+            session.setAttribute("userType",usertype);
             if (userTypeE.equals(UserType.MEMBER)) {
                 session.setAttribute("member", userManageService.getMember(userid));
 //                	context.getRequestDispatcher("/view/user/RegUser.jsp").forward(request, response);
@@ -191,7 +209,7 @@ public class MainController {
                 return "redirect:/therter/" + userid + "/therterInfo";
             } else {
                 session.setAttribute("manager", userManageService.getManager(userid));
-                return "redirect:/manage";
+                return "redirect:/ticketManager/"+userid+"/settleShow";
             }
             //	model.addAttribute("user", user);
             //	context.getRequestDispatcher("/view/user/RegUser.jsp").forward(request, response);
