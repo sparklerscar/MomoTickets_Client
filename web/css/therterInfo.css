@@ -124,8 +124,8 @@ table
 /*button*/
 #btn-publishShow {
     width: 120px;
-    float: right;
-    margin: 40px 280px auto;
+    /*float: right;*/
+    margin: 40px 700px auto;
 }
 
 /*search form*/

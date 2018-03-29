@@ -1,4 +1,8 @@
-<%--
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="momotickets.model.Show" %>
+<%@ page import="momotickets.model.Therter" %>
+<%@ page import="momotickets.model.Seat" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: sparkler
   Date: 2018/3/21
@@ -30,7 +34,13 @@
 <div class="background-content">
     <jsp:include page="/view/header.jsp"></jsp:include>
     <div class="container">
+        <%
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Show show = (Show) request.getAttribute("show");
+            Therter therter = (Therter) request.getAttribute("therter");
+            List<Seat> seatBoughtList = (List<Seat>) request.getAttribute("seatBoughtList");
 
+        %>
 
         <div class="div-therter">
             <jsp:include page="/view/therter/therterLeft.jsp"></jsp:include>

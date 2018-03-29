@@ -44,7 +44,7 @@
                 <a id="a-t2" class="nav-link" href="/therter/<%=((Therter)session.getAttribute("therter")).getTherterid()%>/checkIn">检票登记</a>
             </li>
             <li class="nav-item">
-                <a id="a-t3" class="nav-link" href="/therter/<%=((Therter)session.getAttribute("therter")).getTherterid()%>/buyTicketOffline">线下购票</a>
+                <a id="a-t3" class="nav-link" href="/therter/<%=((Therter)session.getAttribute("therter")).getTherterid()%>/buyTicketsOffline">线下购票</a>
             </li>
         </ul>
 

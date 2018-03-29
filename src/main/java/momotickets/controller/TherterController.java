@@ -71,6 +71,11 @@ public class TherterController {
         return result;
     }
 
+    @RequestMapping(value = "/{userid}/buyTicketsOffline")
+    public String getOffline(@PathVariable String userid) {
+        return "therter/therterBuyTicketsOffline";
+    }
+
     @RequestMapping(value = "/{userid}/checkIn")
     public String checkIn(@PathVariable String userid) {
         return "therter/therterCheckIn";
@@ -292,5 +297,26 @@ public class TherterController {
         }
         return result;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/searchShowById")
+    public Map<String, Object> searchShowById(HttpServletRequest request) {
+        OrderManageService orderManageService = (OrderManageService) EJBFactory.getEJB("OrderManageServiceImpl", "momotickets.service.OrderManageService");
+        TherterManageService therterManageService = (TherterManageService) EJBFactory.getEJB("TherterManageServiceImpl", "momotickets.service.TherterManageService");
+        String therterid = request.getParameter("therterid");
+        int showid = Integer.parseInt(request.getParameter("showid"));
+        Show show = therterManageService.getSingleShow(showid);
+        String therteridByShow = show.getTherterid();
+        Map<String, Object> map = new HashMap<>();
+        if (therterid.equals(therteridByShow)) {
+            map.put("isOwn", 1);
+        } else {
+            map.put("isOwn", 0);//不是本场馆的show
+        }
+        map.put("ifOnsale", show.getIfOnsale());
+        return map;
+
+    }
+
 }
 

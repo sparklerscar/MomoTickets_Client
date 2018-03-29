@@ -36,7 +36,9 @@
         <div class="div-therter">
             <jsp:include page="/view/therter/therterLeft.jsp"></jsp:include>
 
-            <%SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");%>
+            <%SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Therter therter = (Therter)session.getAttribute("therter");
+            %>
             <div class="div-contentRight">
                 <%--<p>This is a test!</p>--%>
                 <hr/>
@@ -87,7 +89,7 @@
                                 <%--<td class="td-remainseatS"><%=((List<Show>)request.getAttribute("therterShowAll")).get(i).getTime()%></td>--%>
                                 <td class="td-detailS">
                                     <%if (((List<Show>) request.getAttribute("therterShowAll")).get(i).getIfOnsale() == 1) {%>
-                                    <span><a href=""
+                                    <span><a href="/therter/<%=therter.getTherterid()%>/buyTickets/<%=((((List<Show>) request.getAttribute("therterShowAll")).get(i)).getShowid())%>"
                                              class="btn btn-warning">Buy tickets</a></span>
                                     <%}%>
                                 </td>
@@ -110,8 +112,8 @@
                                 <td class="td-showtimeS"><%=dateFormat.format(((List<Show>) request.getAttribute("therterShowNow")).get(i).getTime())%>
                                 </td>
                                 <%--<td class="td-remainseatS"><%=((List<Show>)request.getAttribute("therterShowNow")).get(i).getTime()%></td>--%>
-                                <td class="td-detailS"><span><a href=""
-                                                                class="btn btn-warning">More detail</a></span>
+                                <td class="td-detailS"><span><a href="/therter/<%=therter.getTherterid()%>/buyTickets/<%=((((List<Show>) request.getAttribute("therterShowNow")).get(i)).getShowid())%>"
+                                                                class="btn btn-warning">Buy tickets</a></span>
                                 </td>
                             </tr>
                             <%}%>
