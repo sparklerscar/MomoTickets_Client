@@ -4,10 +4,7 @@ import momotickets.enumtype.CheckType;
 import momotickets.enumtype.OrderType;
 import momotickets.enumtype.TimeType;
 import momotickets.factory.EJBFactory;
-import momotickets.model.Coupon;
-import momotickets.model.Member;
-import momotickets.model.Order;
-import momotickets.model.Seat;
+import momotickets.model.*;
 import momotickets.service.OrderManageService;
 import momotickets.service.TherterManageService;
 import momotickets.service.UserManageService;
@@ -54,7 +51,7 @@ public class ShowController {
         modelAndView.addObject("discounts", therterManageService.getDiscount(therterid));
         modelAndView.addObject("coupons", therterManageService.getCoupon(therterid));
         modelAndView.addObject("seatBoughtList", therterManageService.getSeatsByShow(therterid, showid, 1));
-        System.out.print("seatBoughtList.size: "+therterManageService.getSeatsByShow(therterid, showid, 1).size());
+        System.out.print("seatBoughtList.size: " + therterManageService.getSeatsByShow(therterid, showid, 1).size());
         return modelAndView;
     }
 
@@ -133,18 +130,54 @@ public class ShowController {
             rowList[i] = Integer.parseInt(strings[0]);
             columnList[i] = Integer.parseInt(strings[1]);
             Seat seat = therterManageService.getSingleSeat(therterid, showid, rowList[i], columnList[i]);
-            Seat newSeat = new Seat(seat.getSeatid(),seat.getRow(),seat.getColumn(),seat.getShowid(),seat.getOrderid(),1,seat.getSeatprice());
+            Seat newSeat = new Seat(seat.getSeatid(), seat.getRow(), seat.getColumn(), seat.getShowid(), seat.getOrderid(), 1, seat.getSeatprice());
             seats.add(newSeat);
         }
 
 
         if (orderManageService.buyTicket(order, seats, coupon)) {
-//            Order orderSaved = orderManageService.getOrderForId(order.getMemberid(),order.getTime());
-//            int orderid = orderSaved.getOrderid();
             result = "Success!";
         } else {
             result = "Fail! Please try again!";
         }
         return result;
     }
+
+    @ResponseBody
+    @RequestMapping("/buyTicketsWithoutChoosing")
+    public String buyTicketsWithoutChoosingseat(HttpServletRequest request) {
+        TherterManageService therterManageService = (TherterManageService) EJBFactory.getEJB("TherterManageServiceImpl", "momotickets.service.TherterManageService");
+        OrderManageService orderManageService = (OrderManageService) EJBFactory.getEJB("OrderManageServiceImpl", "momotickets.service.OrderManageService");
+        String memberid = request.getParameter("memberid");
+        int showid = Integer.parseInt(request.getParameter("showid"));
+        double priceTotal = Double.parseDouble(request.getParameter("priceTotal"));
+        int couponid = Integer.parseInt(request.getParameter("couponid"));
+        double discReduce = Double.parseDouble(request.getParameter("discReduce"));
+        int amount = Integer.parseInt(request.getParameter("amount"));
+
+        String therterid = therterManageService.getSingleShow(showid).getTherterid();
+        Coupon coupon = null;
+        Order order = null;
+        Date ordertime = new Date();
+        String result = "";
+
+        if (couponid != 0) {
+            coupon = therterManageService.getSingleCoupon(couponid);
+            order = new Order(memberid, showid, 1, 0, amount, priceTotal, discReduce, coupon.getReduceprice(), OrderType.WAIT, ordertime);
+
+        } else {
+            coupon = null;
+            order = new Order(memberid, showid, 1, 0, amount, priceTotal, discReduce, 0, OrderType.WAIT, ordertime);
+        }
+
+        if (orderManageService.buyTicket(order, null, coupon)) {
+            result = "Success!";
+        } else {
+            result = "Fail! Please try again!";
+        }
+
+        return result;
+    }
+
+
 }

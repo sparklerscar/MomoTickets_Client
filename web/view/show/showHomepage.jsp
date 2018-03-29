@@ -26,6 +26,7 @@
 <div class="background-content">
     <jsp:include page="/view/header.jsp"></jsp:include>
     <div class="container">
+        <!--
         <div class="carousel slide" id="carousel-1">
             <ol class="carousel-indicators">
                 <li data-slide-to="0" data-target="#carousel-1">
@@ -78,7 +79,7 @@
                 class="carousel-control-next" href="#carousel-1" data-slide="next"><span
                 class="carousel-control-next-icon"></span> <span class="sr-only">Next</span></a>
         </div>
-
+-->
         <div class="album text-muted" id="div-hot">
             <div class="container-card">
                 <div class="row">

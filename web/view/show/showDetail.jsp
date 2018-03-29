@@ -98,7 +98,7 @@
                             <span><a href="/show/<%=show.getShowid()%>/buyTickets" class="btn btn-danger">Choose seat</a></span>
                         </td>
                         <td>
-                            <span><a href="/show/<%=show.getShowid()%>/buyTicketsNotChoose" class="btn btn-danger">Buy immediately</a></span>
+                            <span><a href="/show/<%=show.getShowid()%>/buyNotChoose" class="btn btn-danger">Buy immediately</a></span>
                         </td>
                     </tr>
                 </table>

@@ -171,15 +171,15 @@ public class MemberController {
         Order order = orderManageService.getOrderById(orderid);
         Account account = payManageService.getAccount(order.getMemberid(),UserType.MEMBER);
         String accountPwdTrue = account.getAccountpwd();
-        if(accountPwd.equals(accountPwdTrue)){
-            if (payManageService.payForOrder(order,accountPwd)) {
+//        if(accountPwd.equals(accountPwdTrue)){
+            if (payManageService.payForOrder(order,accountPwdTrue)) {
                 result = "Success!";
             } else {
-                result = "Fail! Please try again.";
+                result = "Balance not enough!";
             }
-        }else {
-            result = "Account pwd wrong!";
-        }
+//        }else {
+//            result = "Account pwd wrong!";
+//        }
 
         return result;
     }

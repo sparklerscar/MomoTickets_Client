@@ -47,21 +47,25 @@
                         <div id="seat-map">
                             <div class="front">屏幕</div>
                         </div>
+
                         <div class="booking-details">
-                            <p>影片：<span>星际穿越</span></p>
-                            <p>时间：<span>11月14日 21:00</span></p>
-                            <p>座位：</p>
-                            <ul id="selected-seats"></ul>
-                            <p>票数：<span id="counter">0</span></p>
-                            <p>总计：<b>￥<span id="total">0</span></b></p>
-
-                            <button class="checkout-button">确定购买</button>
-
                             <div id="legend"></div>
+                            <div id="div-bookingInfo">
+                                <hr>
+                                <p>影片：<span><%=show.getName()%></span></p>
+                                <p>时间：<span><%=dateFormat.format(show.getTime())%></span></p>
+                                <p>座位：</p>
+                                <ul id="selected-seats"></ul>
+                                <p>票数：<span id="counter">0</span></p>
+                                <p>总计：<b>￥<span id="total">0</span></b></p>
+                                <input type="button" class="btn btn-lg btn-primary btn-block checkout-button"
+                                       id="btn-buyTickets"
+                                       value="Buy." onclick="buyTicketsChoose();">
+
+                            </div>
                         </div>
                         <div style="clear:both"></div>
                     </div>
-
 
                 </div>
             </div>
@@ -79,39 +83,85 @@
 </div>
 
 <script type="text/javascript">
-    // var price = 80; //票价
-    var rowNum = [];
-    var columnNum = [];
-    var seat = [];
 
+    /**
+     * 座位表相关js
+     * @type {string}
+     */
+    var therterid = '<%=therter.getTherterid()%>';
+    var rowNum = <%=therter.getRow()%>;
+    var columnNum = <%=therter.getColumn()%>;
+    var rowNum1 = rowNum;
+    var floorprice = 0;
+    floorprice =<%=show.getFloorprice()%>;
+    var pricegap = 0;
+    pricegap =<%=show.getPricegap()%>;
+    var columngap = 0;
+    columngap =<%=show.getColumngap()%>;
+    var seatUnavailableList = [];
+    var pricePrime = 0;
+
+    <%
+     for (int i = 0; i < seatBoughtList.size(); i++) {
+        int rowNo = seatBoughtList.get(i).getRow();
+        int columnNo = seatBoughtList.get(i).getColumn();
+        %>
+    seatUnavailableList.push(<%=rowNo%> +"_" + <%=columnNo%>);
+    <%}
+    %>
+
+    var rowNumGap = [];//由后到前
+    var priceDivide = [];//由前到后
+    while (rowNum1 > 0) {
+        if (rowNum1 >= columngap) {
+            rowNumGap.push(columngap);
+        } else {
+            rowNumGap.push(rowNum1);
+        }
+        rowNum1 -= columngap;
+    }
+    console.log("rowNumGap: " + rowNumGap + " length: " + rowNumGap.length);
+    for (var i = 0; i < rowNumGap.length; i++) {
+        priceDivide.push(floorprice + (rowNumGap.length - i - 1) * pricegap);
+    }
+
+    var seat = [];
+    var seatMap = [];
+    for (var i = 0; i < rowNumGap.length; i++) {
+        for (var j = 0; j < rowNumGap[rowNumGap.length - i - 1]; j++) {
+            var rowStr = '';
+            for (var k = 0; k < columnNum; k++) {
+                var alphabet = String.fromCharCode(64 + parseInt(i + 1)).toLowerCase();
+                rowStr += alphabet;
+            }
+            seatMap.push(rowStr);
+        }
+    }
+    console.log("seatMap: " + seatMap);
+
+    //图例区
     $(document).ready(function () {
         var $cart = $('#selected-seats'), //座位区
             $counter = $('#counter'), //票数
-            $total = $('#total'); //总计金额
+            $total = $('#total'), //总计金额（优惠前）
+            $totalWithDisc = $('#totalWithDisc');//总计金额（优惠后）
 
         var sc = $('#seat-map').seatCharts({
-            map: [  //座位图
-                'vvvvvvvvvv',
-                'vvvvvvvvvv',
-                'aaaaaaaaaa',
-                'aaaaaaaaaa',
-                'aaaaaaaaaa',
-                'aaaaaaaaaa',
-                'aaaaaaaaaa',
-                'aaaaaaaaaa',
-                'aaaaaaaaaa',
-                'aaaaaaaaaa'
-            ],
-
+            map: seatMap,
             seats: {
-                v: {
-                    price: 100,
+                a: {
+                    price: priceDivide[0],
                     classes: 'first-class', //your custom CSS class
                     category: 'First Class'
                 },
-                a: {
-                    price: 40,
-                    classes: 'economy-class', //your custom CSS class
+                b: {
+                    price: priceDivide[1],
+                    classes: 'second-class', //your custom CSS class
+                    category: 'Economy Class'
+                },
+                c: {
+                    price: priceDivide[2],
+                    classes: 'third-class', //your custom CSS class
                     category: 'Economy Class'
                 }
 
@@ -127,16 +177,18 @@
             legend: { //定义图例
                 node: $('#legend'),
                 items: [
-                    ['a', 'available', '可选座'],
-                    ['a', 'unavailable', '已售出'],
-                    ['v', 'available', 'vip座']
+                    ['a', 'available', '一等座 ¥' + priceDivide[0]],
+                    ['b', 'available', '二等座 ¥' + priceDivide[1]],
+                    ['c', 'available', '三等座 ¥' + priceDivide[2]],
+                    // ['3', 'available', '普通座'],
+                    ['a', 'unavailable', '已售出']
                 ]
             },
             click: function () { //点击事件
                 if (this.status() == 'available') { //可选座
 
-                    if(seat.length < 6){
-                        $('<li>' + (this.settings.row + 1) + '排' + this.settings.label + '座</li>')
+                    if (seat.length < 6) {
+                        $('<li style="background: lightskyblue;border-radius: 5px">' + (this.settings.row + 1) + '排' + this.settings.label + '座</li>')
                             .attr('id', 'cart-item-' + this.settings.id)
                             .data('seatId', this.settings.id)
                             .appendTo($cart);
@@ -144,8 +196,14 @@
                         seat.push(this.settings.row + 1 + "_" + this.settings.label);
                         console.log(seat);
 
+                        //计数，金额赋值
                         $counter.text(sc.find('selected').length + 1);
                         $total.text(recalculateTotal(sc) + this.data().price);
+                        pricePrime = recalculateTotal(sc) + this.data().price;
+
+                        //根据total实时更新可用优惠券
+                        var totalTemp = recalculateTotal(sc) + this.data().price;
+                        console.log("total: " + totalTemp);
 
                         return 'selected';
                     } else {
@@ -155,9 +213,9 @@
 
                 } else if (this.status() == 'selected') { //已选中
 
-                    for(var i=0;i<seat.length;i++){
-                        if(seat[i].toString()==(this.settings.row + 1 + "_" + this.settings.label)){
-                            seat.splice(i,1);
+                    for (var i = 0; i < seat.length; i++) {
+                        if (seat[i].toString() == (this.settings.row + 1 + '_' + this.settings.label)) {
+                            seat.splice(i, 1);
                         }
                     }
                     console.log(seat);
@@ -166,6 +224,12 @@
                     $counter.text(sc.find('selected').length - 1);
                     //更新总计
                     $total.text(recalculateTotal(sc) - this.data().price);
+                    pricePrime = recalculateTotal(sc) - this.data().price;
+
+                    //根据total实时更新可用优惠券
+                    var totalTemp = recalculateTotal(sc) - this.data().price;
+                    console.log("total: " + totalTemp);
+
 
                     //删除已预订座位
                     $('#cart-item-' + this.settings.id).remove();
@@ -178,8 +242,9 @@
                 }
             }
         });
+
         //已售出的座位
-        sc.get(['1_2', '4_4', '4_5', '6_6', '6_7', '8_5', '8_6', '8_7', '8_8', '10_1', '10_2']).status('unavailable');
+        sc.get(seatUnavailableList).status('unavailable');
 
     });
 
@@ -192,6 +257,34 @@
 
         return total;
     }
+
+    $("#span-couponConfirm").hide();
+
+    function buyTicketsChoose() {
+        console.log("do function buyTickets");
+        var seatChoose = JSON.stringify(seat);
+
+        console.log("seatChoose: " + seatChoose);
+        var showid = <%=show.getShowid()%>;
+        var priceTotal = pricePrime;
+
+        $.get("/therter/buyTicketsWithoutDisc", {
+            "seatChoose": seatChoose,
+            "showid": showid,
+            "priceTotal": priceTotal,
+        }, function (data) {
+            if (data == "Success!") {
+                alert(data);
+                window.location.href="/therter/"+therterid+"/therterOrder";
+            } else {
+                alert(data);
+            }
+        })
+
+    }
+
+
+
 </script>
 
 

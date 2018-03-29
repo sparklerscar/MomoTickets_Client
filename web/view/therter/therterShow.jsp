@@ -45,12 +45,12 @@
 
 
                 <div id="div4-therter-show">
-                <%--ALL,NOW,TIMEOUT--%>
-                <p id="btn-chooseOrdertypeTab">
-                    <a href="#" class="btn btn-primary" id="therterShowAll">All.</a>&nbsp;&nbsp;&nbsp;
-                    <a href="#" class="btn btn-secondary" id="therterShowNow">Now.</a>&nbsp;&nbsp;&nbsp;
-                    <a href="#" class="btn btn-secondary" id="therterShowTimeout">Timeout.</a>
-                </p>
+                    <%--ALL,NOW,TIMEOUT--%>
+                    <p id="btn-chooseOrdertypeTab">
+                        <a href="#" class="btn btn-primary" id="therterShowAll">All.</a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" class="btn btn-secondary" id="therterShowNow">Now.</a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" class="btn btn-secondary" id="therterShowTimeout">Timeout.</a>
+                    </p>
                     <%--<div class="div-singleTherterShow">--%>
                     <%--<div class="card-therter">--%>
                     <%--<img src="/image/show/4.jpg" alt="Card image cap" width="160px" height="100px">--%>
@@ -85,8 +85,11 @@
                                 <td class="td-showtimeS"><%=dateFormat.format(((List<Show>) request.getAttribute("therterShowAll")).get(i).getTime())%>
                                 </td>
                                 <%--<td class="td-remainseatS"><%=((List<Show>)request.getAttribute("therterShowAll")).get(i).getTime()%></td>--%>
-                                <td class="td-detailS"><span><a href=""
-                                                                class="btn btn-warning">More detail</a></span>
+                                <td class="td-detailS">
+                                    <%if (((List<Show>) request.getAttribute("therterShowAll")).get(i).getIfOnsale() == 1) {%>
+                                    <span><a href=""
+                                             class="btn btn-warning">Buy tickets</a></span>
+                                    <%}%>
                                 </td>
                             </tr>
                             <%}%>

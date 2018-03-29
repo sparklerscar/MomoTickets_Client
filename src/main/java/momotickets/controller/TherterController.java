@@ -3,13 +3,11 @@ package momotickets.controller;
 
 import momotickets.enumtype.*;
 import momotickets.factory.EJBFactory;
-import momotickets.model.Account;
-import momotickets.model.Order;
-import momotickets.model.Show;
-import momotickets.model.Therter;
+import momotickets.model.*;
 import momotickets.service.OrderManageService;
 import momotickets.service.PayManageService;
 import momotickets.service.TherterManageService;
+import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by sparkler on 2018/3/9.
@@ -96,9 +92,9 @@ public class TherterController {
 
         Map<String, Object> map = new HashMap<>();
         if (therterid.equals(therteridByOrder)) {
-            map.put("isOwn",1);
+            map.put("isOwn", 1);
         } else {
-            map.put("isOwn",0);//不是本场馆的订单
+            map.put("isOwn", 0);//不是本场馆的订单
         }
         map.put("order", order);
         map.put("ordertime", format.format(order.getTime()));
@@ -115,7 +111,7 @@ public class TherterController {
         int orderid = Integer.parseInt(request.getParameter("orderid"));
         Order order = orderManageService.getOrderById(orderid);
         String result = "";
-        if(therterManageService.checkIn(order)){
+        if (therterManageService.checkIn(order)) {
             result = "Success!";
         } else {
             result = "Fail! Please try again.";
@@ -164,26 +160,36 @@ public class TherterController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/{userid}/buyTickets/{showid}", method = RequestMethod.GET)
+    public ModelAndView getTherterBuyTickets(@PathVariable("userid") String userid,@PathVariable("showid") int showid) {
+        TherterManageService therterManageService = (TherterManageService) EJBFactory.getEJB("TherterManageServiceImpl", "momotickets.service.TherterManageService");
+        ModelAndView modelAndView = new ModelAndView("/therter/therterBuyTicketT");
+        modelAndView.addObject("show", therterManageService.getSingleShow(showid));
+        modelAndView.addObject("therter", therterManageService.getTherter(userid, CheckType.CHECKED));
+        modelAndView.addObject("seatBoughtList", therterManageService.getSeatsByShow(userid, showid, 1));
+        return modelAndView;
+    }
+
 
     @ResponseBody
-    @RequestMapping(value = "/modifyInfo", method=RequestMethod.POST)
+    @RequestMapping(value = "/modifyInfo", method = RequestMethod.POST)
     public String modifyInfo(HttpServletRequest request) {
         TherterManageService therterManageService = (TherterManageService) EJBFactory.getEJB("TherterManageServiceImpl", "momotickets.service.TherterManageService");
 
-        String name=request.getParameter("name");
-        String telnum=request.getParameter("telnum");
+        String name = request.getParameter("name");
+        String telnum = request.getParameter("telnum");
         String therterid = request.getParameter("therterid");
-        Therter therterBefore = therterManageService.getTherter(therterid,CheckType.CHECKED);
-        System.out.println("1"+therterBefore.getName());
-        Therter therterModify = new Therter(therterBefore.getTherterid(),therterBefore.getPwd(),therterBefore.getCheck(),therterBefore.getName(),therterBefore.getLocation(),therterBefore.getTelnum(),therterBefore.getSeat(),therterBefore.getRow(),therterBefore.getColumn(),therterBefore.getTid());
-        System.out.println("2"+therterModify.getName());
+        Therter therterBefore = therterManageService.getTherter(therterid, CheckType.CHECKED);
+        System.out.println("1" + therterBefore.getName());
+        Therter therterModify = new Therter(therterBefore.getTherterid(), therterBefore.getPwd(), therterBefore.getCheck(), therterBefore.getName(), therterBefore.getLocation(), therterBefore.getTelnum(), therterBefore.getSeat(), therterBefore.getRow(), therterBefore.getColumn(), therterBefore.getTid());
+        System.out.println("2" + therterModify.getName());
         therterModify.setName(name);
         therterModify.setTelnum(telnum);
-        System.out.println("3"+therterBefore.getName());
-        System.out.println("4"+therterModify.getName());
+        System.out.println("3" + therterBefore.getName());
+        System.out.println("4" + therterModify.getName());
 
         String result = "";
-        if(therterManageService.modifyTherter(therterBefore,therterModify)){
+        if (therterManageService.modifyTherter(therterBefore, therterModify)) {
             result = "Success! Wait confirm.";
         } else {
             result = "Fail! Please submit again.";
@@ -192,68 +198,99 @@ public class TherterController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/modifyPwd", method=RequestMethod.POST)
+    @RequestMapping(value = "/modifyPwd", method = RequestMethod.POST)
     public String modifyPwd(HttpServletRequest request) {
         System.out.println("modify pwd!!!!!!!!!!!!!!!!!!!!!!!");
         TherterManageService therterManageService = (TherterManageService) EJBFactory.getEJB("TherterManageServiceImpl", "momotickets.service.TherterManageService");
         String result = "";
-        String prePwd=request.getParameter("prePwd");
-        String pwd=request.getParameter("pwd");
+        String prePwd = request.getParameter("prePwd");
+        String pwd = request.getParameter("pwd");
         String therterid = request.getParameter("therterid");
-        Therter therter = therterManageService.getTherter(therterid,CheckType.CHECKED);
+        Therter therter = therterManageService.getTherter(therterid, CheckType.CHECKED);
         String prePwdTrue = therter.getPwd();
-        if(prePwd.equals(prePwdTrue)){
+        if (prePwd.equals(prePwdTrue)) {
             therter.setPwd(pwd);
-            if(therterManageService.modifyTherterPwd(therter)){
+            if (therterManageService.modifyTherterPwd(therter)) {
                 result = "Success!";
             } else {
                 result = "Fail! Please try again.";
             }
-        }else {
+        } else {
             result = "Pre password wrong! Please try again.";
         }
-        System.out.println("result: "+result);
+        System.out.println("result: " + result);
         return result;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/modifyApwd", method=RequestMethod.POST)
+    @RequestMapping(value = "/modifyApwd", method = RequestMethod.POST)
     public String modifyApwd(HttpServletRequest request) {
         PayManageService payManageService = (PayManageService) EJBFactory.getEJB("PayManageServiceImpl", "momotickets.service.PayManageService");
         String result = "";
-        String preApwd=request.getParameter("preApwd");
-        String apwd=request.getParameter("apwd");
+        String preApwd = request.getParameter("preApwd");
+        String apwd = request.getParameter("apwd");
         String therterid = request.getParameter("therterid");
-        Account account = payManageService.getAccount(therterid,UserType.THERTER);
+        Account account = payManageService.getAccount(therterid, UserType.THERTER);
         String preApwdTrue = account.getAccountpwd();
-        if(preApwd.equals(preApwdTrue)){
+        if (preApwd.equals(preApwdTrue)) {
             account.setAccountpwd(apwd);
-            if(payManageService.modifyAccount(account)){
+            if (payManageService.modifyAccount(account)) {
                 result = "Success!";
             } else {
                 result = "Fail! Please try again.";
             }
-        }else {
+        } else {
             result = "Pre password wrong! Please try again.";
         }
         return result;
     }
 
-//    @RequestMapping(value = "/{userid}/therterDiscAndCoupon", method = RequestMethod.GET)
-//    public Boolean getTherterDiscAndCoupon(@PathVariable String userid) {
-//        return false;
-//    }
-//
-//    @ResponseBody
-//    @RequestMapping(value = "/{userid}/therterInfo", method = RequestMethod.GET)
-//    public Boolean modifyTherterInfo(@PathVariable String userid) {
-//        return false;
-//    }
-//
-//    @ResponseBody
-//    @RequestMapping(value = "/{userid}/therterDiscAndCoupon", method = RequestMethod.GET)
-//    public Boolean modifyTherterDisc(@PathVariable String userid) {
-//        return false;
-//    }
+
+    @ResponseBody
+    @RequestMapping("/buyTicketsWithoutDisc")
+    public String buyTicketsTherter(HttpServletRequest request) {
+        TherterManageService therterManageService = (TherterManageService) EJBFactory.getEJB("TherterManageServiceImpl", "momotickets.service.TherterManageService");
+        OrderManageService orderManageService = (OrderManageService) EJBFactory.getEJB("OrderManageServiceImpl", "momotickets.service.OrderManageService");
+        String seatChoose = request.getParameter("seatChoose");
+        JSONArray seatChooseArray = JSONArray.fromObject(seatChoose);
+
+        System.out.println("seats in controller: " + seatChooseArray);
+
+        int showid = Integer.parseInt(request.getParameter("showid"));
+        double priceTotal = Double.parseDouble(request.getParameter("priceTotal"));
+
+        int amount = seatChooseArray.size();
+        int[] rowList = new int[amount];
+        int[] columnList = new int[amount];
+        List<Seat> seats = new ArrayList<>();
+        String therterid = therterManageService.getSingleShow(showid).getTherterid();
+        Coupon coupon = null;
+        Order order = null;
+        Date ordertime = new Date();
+        String result = "";
+
+
+        coupon = null;
+        order = new Order("offline", showid, 0, 1, amount, priceTotal, 0, 0, OrderType.PAYED, ordertime);
+
+
+        //得到Seat列表
+        for (int i = 0; i < amount; i++) {
+            String[] strings = seatChooseArray.getString(i).split("_");
+            rowList[i] = Integer.parseInt(strings[0]);
+            columnList[i] = Integer.parseInt(strings[1]);
+            Seat seat = therterManageService.getSingleSeat(therterid, showid, rowList[i], columnList[i]);
+            Seat newSeat = new Seat(seat.getSeatid(), seat.getRow(), seat.getColumn(), seat.getShowid(), seat.getOrderid(), 1, seat.getSeatprice());
+            seats.add(newSeat);
+        }
+
+
+        if (orderManageService.buyTicket(order, seats, coupon)) {
+            result = "Success!";
+        } else {
+            result = "Fail! Please try again!";
+        }
+        return result;
+    }
 }
 

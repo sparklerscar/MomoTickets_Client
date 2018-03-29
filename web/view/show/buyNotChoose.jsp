@@ -38,6 +38,7 @@
             List<Discount> discounts = (List<Discount>) request.getAttribute("discounts");
             List<Coupon> coupons = (List<Coupon>) request.getAttribute("coupons");
             List<Seat> seatRemainList = (List<Seat>) request.getAttribute("seatRemainList");
+            System.out.println(seatRemainList.get(0).getSeatprice());
             int viplevel = member.getViplevel();
             int discMem = 100;
             for (int i = 0; i < discounts.size(); i++) {
@@ -55,14 +56,13 @@
 
             <div class="demo">
 
-                <div class="booking-details">
+                <div class="booking-details-notChoose">
                     <div id="legend"></div>
                     <div id="div-bookingInfo">
-                        <hr>
                         <p>影片：<span><%=show.getName()%></span></p>
                         <p>时间：<span><%=dateFormat.format(show.getTime())%></span></p>
                         <p>票数：<select id="select-amount" name="select-coupon" value="" onclick="chooseAmount(this);">
-                            <%for (int i = 1; i <= 20; i++) {%>
+                            <%for (int i = 0; i <= 20; i++) {%>
                             <option value="<%=i%>"><%=i%>
                             </option>
                             <%}%>
@@ -82,7 +82,7 @@
                         <p>总计(优惠后)：<b>￥<span id="totalWithDisc">0</span></b></p>
                         <input type="button" class="btn btn-lg btn-primary btn-block checkout-button"
                                id="btn-buyTickets"
-                               value="Buy." onclick="buyTicketsChoose();">
+                               value="Buy." onclick="buyTicketsNotChoose();">
 
                     </div>
                 </div>
@@ -110,9 +110,6 @@
      * @type {string}
      */
     var memberid = '<%=member.getMemberid()%>';
-    var rowNum = <%=therter.getRow()%>;
-    var columnNum = <%=therter.getColumn()%>;
-    var rowNum1 = rowNum;
     var floorprice = 0;
     floorprice =<%=show.getFloorprice()%>;
     var pricegap = 0;
@@ -121,24 +118,34 @@
     columngap =<%=show.getColumngap()%>;
     var couponsStr = [];
     var couponsId = [];
+    var priceAtLast = 0;
+    var couponReduce = 0;
 
 
+    var pricePrime = 0;
+    var amount = 0;
     function chooseAmount(data) {
         var totalTemp = 0;
-        var selectedOption = data.options[value.selectedIndex];
         var selectedAmount = 0;
+        var selectedOption = data.options[data.selectedIndex];
         selectedAmount = selectedOption.value;
+        console.log("selectedAmount: " + selectedAmount);
+        amount = selectedAmount;
+
         var seatRemainPriceArray = [];
+        var priceTemp = 0;
         <%for(int i = 0;i<seatRemainList.size();i++){%>
-        seatRemainPriceArray.push(<%=seatRemainList.get(i).getSeatprice()%>);
+        priceTemp = <%=seatRemainList.get(i).getSeatprice()%>;
+        seatRemainPriceArray.push(priceTemp);
         <%}%>
         for (var i = 0; i < selectedAmount; i++) {
             totalTemp += seatRemainPriceArray[i];
         }
-
+        console.log("seat remain: " + seatRemainPriceArray);
         $("#total").html(totalTemp);
+        pricePrime = totalTemp;
         $("#totalWithDisc").html((totalTemp *<%=discMem%>) / 100.0);
-
+        priceAtLast = (totalTemp *<%=discMem%>) / 100.0;
 
         console.log("total: " + totalTemp);
         couponsStr = [];
@@ -173,6 +180,7 @@
         for(int i = 0;i < coupons.size();i++){%>
         if (couponChoose == <%=coupons.get(i).getCouponid()%>) {
             reduceprice = <%=coupons.get(i).getReduceprice()%>;
+            couponReduce = reduceprice;
         }
         <%}
          %>
@@ -181,10 +189,12 @@
                 alert(data);
                 var totalPresent = $("#totalWithDisc").text();
                 $("#span-selectCoupon").hide();
-                $("#span-couponConfirm").val(couponChooseText);
+                $("#span-couponConfirm").html(couponChooseText);
                 $("#span-couponConfirm").show();
                 //更新优惠后总价
                 $("#totalWithDisc").text(totalPresent - reduceprice);
+                priceAtLast = totalPresent - reduceprice;
+
             } else {
                 alert(data);
                 $("#select-coupon").val("0");
@@ -197,12 +207,35 @@
 
     //买票
     function buyTicketsNotChoose() {
-        var seatchoose = JSON.stringify(seat);
-        var memberid =<%=member.getMemberid()%>;
-        var showid = <%=show.getShowid()%>;
-        var priceTotal = total;
-        var params = {};
+        if (amount == 0) {
+            alert("Please choose amount!")
+        } else {
+            price2 = $("#totalWithDisc").val();
+            console.log("three prices: "+pricePrime+" "+priceAtLast+" "+couponReduce);
+            var discReduce = pricePrime - (priceAtLast + couponReduce);
+            var memberid ='<%=member.getMemberid()%>';
+            var showid = <%=show.getShowid()%>;
+            var priceTotal = priceAtLast;
+            var couponid = $("#select-coupon").val();
+            var seatAmount = amount;
 
+            $.get("/show/buyTicketsWithoutChoosing", {
+                "memberid": memberid,
+                "showid": showid,
+                "priceTotal": priceTotal,
+                "couponid": couponid,
+                "discReduce": discReduce,
+                "amount": seatAmount
+            }, function (data) {
+                if (data == "Success!") {
+                    alert(data);
+                    window.location.href = "/member/" + memberid + "/memberOrder";
+                } else {
+                    alert(data);
+                }
+            })
+
+        }
     }
 
 </script>

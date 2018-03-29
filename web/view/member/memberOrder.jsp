@@ -181,7 +181,7 @@
                             <td class="td-ordertimeO"><%=dateFormat.format(orderListWait.get(i).getTime())%>
                             </td>
                             <td class="td-detailO"><span><input
-                                    onclick="payForOrder(<%=dateFormat.format(orderListWait.get(i).getOrderid()%>);" type="button"
+                                    onclick="payForOrderShow(<%=orderListWait.get(i).getOrderid()%>);" type="button"
                                     class="btn btn-warning" value="Pay"></span>
                             </td>
                         </tr>
@@ -301,9 +301,9 @@
                         <div class="form-class" id="form-payForOrder">
                             <h2 class="form-class-heading" >Pay for order</h2>
                             <label class="sr-only">accountPwd</label>
-                            <input type="password" class="accountPwd" class="form-control"
+                            <input type="password" id="accountPwd" class="form-control"
                                    placeholder="account pwd" required>
-                            <input class="btn btn-lg btn-primary btn-block" class="btn-payForOrder"
+                            <input class="btn btn-lg btn-primary btn-block" id="btn-payForOrder"
                                    value="Pay">
                         </div>
                     </div>
@@ -418,9 +418,16 @@
         });
     }
 
-    function payForOrder() {
-        var accountPwd = $("#accountPwd-<%=orderListWait.get(i).getOrderid()%>").val();
-        var orderid = $("#input-orderid-<%=orderListWait.get(i).getOrderid()%>").val();
+    function payForOrderShow(orderid) {
+        $("#modal-container-payForOrder").show();
+        $("#btn-payForOrder").click(function () {
+            payForOrder(orderid);
+        })
+
+    }
+
+    function payForOrder(orderid) {
+        var accountPwd = $("#accountPwd").val();
         $.post("/member/payForOrder",{"accountPwd":accountPwd,"orderid":orderid},function (data) {
             if(data == "Success!"){
                 alert(data);
@@ -430,8 +437,7 @@
             }
         })
 
-    })
-    <%}%>
+    }
 
 </script>
 

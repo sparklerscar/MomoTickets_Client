@@ -194,8 +194,6 @@
     function publishShow() {
         var params = {};
         var userid = '<%=((Therter)session.getAttribute("therter")).getTherterid()%>';
-        alert(userid);
-        console.log(userid);
         //注意params.名称  名称与实体bean中名称一致
         params.therterid = userid;
         params.showtype = $("#select-showType").val();
@@ -214,7 +212,7 @@
             + "&columngap=" + params.columngap, function (data) {
             if (data == "Success!") {
                 alert(data);
-                // window.location.href = "/login";
+                window.location.href = "/therter/"+userid+"/therterShow";
             } else {
                 alert(data);
             }
