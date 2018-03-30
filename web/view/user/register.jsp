@@ -40,22 +40,7 @@
                 <label  class="sr-only">Password Again</label>
                 <input type="password" id="passwordAgain" name="pwd2" class="form-control" placeholder="Password Again" required>
             </div>
-            <div id="div-signUpTherter">
-                <label class="sr-only">Name</label>
-                <input type="text" id="name" name="name" class="form-control" placeholder="Name" required autofocus>
-                <label class="sr-only">Location</label>
-                <input type="text" id="location" name="location" class="form-control" placeholder="Location" required autofocus>
-                <label class="sr-only">Telnum</label>
-                <input type="text" id="telnum" name="telnum" class="form-control" placeholder="Telnum" required autofocus>
-                <label class="sr-only">Row</label>
-                <input type="text" id="row" name="row" class="form-control" placeholder="Row(Please input an integer)" required autofocus>
-                <label class="sr-only">Column</label>
-                <input type="text" id="column" name="column" class="form-control" placeholder="Column(Please input an integer)" required autofocus>
-                <label  class="sr-only">Password</label>
-                <input type="password" id="passwordTherter" name="pwd1Therter" class="form-control" placeholder="Password" required>
-                <label  class="sr-only">Password Again</label>
-                <input type="password" id="passwordAgainTherter" name="pwd2Therter" class="form-control" placeholder="Password Again" required>
-            </div>
+
             <input class="btn btn-lg btn-primary btn-block" id="btn-signUp" type="submit" value="Sign Up">
             <a href="/login" class="a-signUp">Already have account? Sign in>>></a>
         </form>

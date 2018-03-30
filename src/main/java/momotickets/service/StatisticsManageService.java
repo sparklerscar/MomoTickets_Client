@@ -7,6 +7,7 @@ import momotickets.model.Therter;
 
 import javax.ejb.Remote;
 import java.util.List;
+import java.util.Map;
 
 @Remote
 /**
@@ -33,5 +34,11 @@ public interface StatisticsManageService {
      * @return
      */
     List<Settle> getAllSettle();
+
+    /**
+     * 得到所有show的订单总额
+     * @return
+     */
+    Map getTotalOfShow();
 
 }

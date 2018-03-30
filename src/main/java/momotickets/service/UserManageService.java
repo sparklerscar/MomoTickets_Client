@@ -80,10 +80,10 @@ public interface UserManageService {
 	 */
 	Boolean redeemCoupon(String memberid, Coupon coupon);
 
-    /**
-     * 会员取消使用账户
+	/**
+	 * 会员取消使用账户
 	 * @param memberid
-     * @return
-     */
+	 * @return
+	 */
 	Boolean cancelMember(String memberid);
 }

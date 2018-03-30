@@ -54,7 +54,7 @@ public class MainController {
     }
 
     @RequestMapping("/logout")
-    public void getLogout(HttpServletRequest request,HttpServletResponse response) {
+    public void getLogout(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         session.invalidate();
         response.setCharacterEncoding("UTF-8");
@@ -90,53 +90,76 @@ public class MainController {
     }
 
 
-
     @RequestMapping(value = "/register/member", method = RequestMethod.POST)
-    public String doRegist(@RequestParam("email") String email,
+    public void doRegist(@RequestParam("email") String email,
                            @RequestParam("pwd1") String pwd1,
                            @RequestParam("pwd2") String pwd2,
                            @RequestParam("nickname") String nickname,
                            ModelMap model,
-                           HttpServletRequest request) {
+                           HttpServletResponse response) {
         // TODO Auto-generated method stub
         UserManageService userManageService = (UserManageService) EJBFactory.getEJB("UserManageServiceBean", "momotickets.service.UserManageService");
 //        TherterManageService therterManageService = (TherterManageService) EJBFactory.getEJB("TherterManageServiceImpl", "momotickets.service.TherterManageService");
-        String message = "";
+        String returnMessage = "";
         boolean result = false;
+        response.setHeader("Content-type", "text/html;charset=UTF-8");
+        PrintWriter out = null;
         if (pwd1.equals(pwd2)) {
             result = userManageService.register(email, nickname, pwd1);
             System.out.println("******************************************\nmember register result : " + result);
-            if (result) {
-                return "/login";
+            if (result == true) {
+                returnMessage = "Success! Please Check the email.";
+                try {
+                    out = response.getWriter();
+                    out.print("<script>alert('" + returnMessage + "');" +
+                            "window.location.href='/login';</script>");
+                    out.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
-                message += "Please try again!<br>";
-                model.addAttribute("mess", message);
-                return "ErrorMessage";
+                returnMessage = "Fail! Please try again!";
+                try {
+                    out = response.getWriter();
+                    out.print("<script>alert('" + returnMessage + "');" +
+                            "window.location.href='/register/therter';</script>");
+                    out.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         } else {
-            message += "Password not match!<br>";
-            model.addAttribute("mess", message);
-            return "ErrorMessage";
+            returnMessage = "Password not match!";
+            try {
+                out = response.getWriter();
+                out.print("<script>alert('" + returnMessage + "');" +
+                        "window.location.href='/register/therter';</script>");
+                out.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @RequestMapping(value = "/register/therter", method = RequestMethod.POST)
-    public String doRegistT(@RequestParam("name") String name,
-                            @RequestParam("location") String location,
-                            @RequestParam("telnum") String telnum,
-                            @RequestParam("row") String row,
-                            @RequestParam("column") String column,
-                            @RequestParam("pwd1Therter") String pwd1Therter,
-                            @RequestParam("pwd2Therter") String pwd2Therter,
-                            ModelMap model,
-                            HttpServletRequest request) {
+    public void doRegistT(@RequestParam("name") String name,
+                          @RequestParam("location") String location,
+                          @RequestParam("telnum") String telnum,
+                          @RequestParam("row") String row,
+                          @RequestParam("column") String column,
+                          @RequestParam("pwd1Therter") String pwd1Therter,
+                          @RequestParam("pwd2Therter") String pwd2Therter,
+                          ModelMap model,
+                          HttpServletResponse response) {
         // TODO Auto-generated method stub
 //        UserManageService userManageService = (UserManageService) EJBFactory.getEJB("UserManageServiceBean", "momotickets.service.UserManageService");
         TherterManageService therterManageService = (TherterManageService) EJBFactory.getEJB("TherterManageServiceImpl", "momotickets.service.TherterManageService");
 //        StrEnumChange strEnumChange = new StrEnumChange();
 //        UserType userTypeE = (UserType) strEnumChange.Str2Enum(usertype);
-        String message = "";
+        String returnMessage = "";
         boolean result = false;
+        response.setHeader("Content-type", "text/html;charset=UTF-8");
+        PrintWriter out = null;
 //        if (userTypeE.equals(UserType.MEMBER)) {
 //            if (pwd1.equals(pwd2)) {
 //                result = userManageService.register(email, nickname, pwd1);
@@ -159,18 +182,41 @@ public class MainController {
             therter.setColumn(Integer.valueOf(column));
             result = therterManageService.registerTherter(therter);
             System.out.println("******************************************\ntherter register result : " + result);
+
+
             if (result == true) {
-                return "/login";
+                returnMessage = "Success!";
+                try {
+                    out = response.getWriter();
+                    out.print("<script>alert('" + returnMessage + "');" +
+                            "window.location.href='/login';</script>");
+                    out.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
-                message += "Please try again!<br>";
-                model.addAttribute("mess", message);
-                return "ErrorMessage";
+                returnMessage = "Fail! Please try again!";
+                try {
+                    out = response.getWriter();
+                    out.print("<script>alert('" + returnMessage + "');" +
+                            "window.location.href='/register/therter';</script>");
+                    out.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         } else {
-            message += "Password not match!<br>";
-            model.addAttribute("mess", message);
-            return "ErrorMessage";
+            returnMessage = "Password not match!";
+            try {
+                out = response.getWriter();
+                out.print("<script>alert('" + returnMessage + "');" +
+                        "window.location.href='/register/therter';</script>");
+                out.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
 
@@ -199,7 +245,7 @@ public class MainController {
         if (returnType.equals(ReturnType.SUCCESS)) {
             session = request.getSession(true);
 //            session.setAttribute("userType",usertype);
-            session.setAttribute("userType",usertype);
+            session.setAttribute("userType", usertype);
             if (userTypeE.equals(UserType.MEMBER)) {
                 session.setAttribute("member", userManageService.getMember(userid));
 //                	context.getRequestDispatcher("/view/user/RegUser.jsp").forward(request, response);
@@ -209,7 +255,7 @@ public class MainController {
                 return "redirect:/therter/" + userid + "/therterInfo";
             } else {
                 session.setAttribute("manager", userManageService.getManager(userid));
-                return "redirect:/ticketManager/"+userid+"/settleShow";
+                return "redirect:/ticketManager/" + userid + "/settleShow";
             }
             //	model.addAttribute("user", user);
             //	context.getRequestDispatcher("/view/user/RegUser.jsp").forward(request, response);
@@ -237,11 +283,11 @@ public class MainController {
     @RequestMapping(value = "/confirmActive")
     public String registerActive(HttpServletRequest request) {
         String email = request.getParameter("email");
-        System.out.println("email: "+email);
+        System.out.println("email: " + email);
         UserManageService userManageService = (UserManageService) EJBFactory.getEJB("UserManageServiceBean", "momotickets.service.UserManageService");
-        if(userManageService.activeMember(email)){
+        if (userManageService.activeMember(email)) {
             return "Active success!";
-        }else {
+        } else {
             return "Fail! Please try again.";
         }
 
